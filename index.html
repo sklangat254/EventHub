@@ -3,786 +3,1158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 Nairobi Summer Farmers Market | EventsKenya</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<title>2026 Atlanta Summer Farmers Market | EventHub</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Nunito Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:#f8f7fa;color:#1E0A3C;font-size:15px;line-height:1.5;overflow-x:hidden;}
-a{color:inherit;text-decoration:none;cursor:pointer;}
-button{font-family:inherit;cursor:pointer;}
+body{font-family:'DM Sans',-apple-system,sans-serif;background:#faf9f5;color:#1a1a0e;font-size:15px;line-height:1.5;overflow-x:hidden;}
+a{color:inherit;text-decoration:none;}
+button,label{font-family:inherit;cursor:pointer;}
 img{display:block;max-width:100%;}
 :root{
-  --orange:#E05020;--orange-h:#c94418;
-  --text:#1E0A3C;--text-l:#6F7287;--text-xl:#a9acb7;
-  --border:#DBDAE3;--bg:#f8f7fa;--white:#fff;
-  --footer:#1E0A3C;
+  --green:#2d6a4f;--green-h:#1b4332;--green-l:#52b788;
+  --amber:#e9c46a;--amber-h:#f4a261;
+  --text:#1a1a0e;--muted:#5c5c4a;--dim:#9b9b82;
+  --border:#deded0;--bg:#faf9f5;--footer:#1b4332;
 }
-
-/* ── SPA pages ── */
-.page{display:none;} .page.active{display:block;}
-
-/* ── Toast ── */
-#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:#1E0A3C;color:#fff;padding:12px 22px;border-radius:8px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:all .35s;z-index:9999;white-space:nowrap;}
+.page{display:none;}.page.active{display:block;}
+#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:#1b4332;color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;opacity:0;pointer-events:none;transition:all .3s;z-index:9999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,.25);}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
-
-/* ── Navbar ── */
 .navbar{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:500;}
-.navbar-inner{max-width:1280px;margin:0 auto;padding:0 24px;height:64px;display:flex;align-items:center;gap:16px;}
-.nav-logo{font-size:22px;font-weight:900;color:var(--orange);letter-spacing:-.5px;white-space:nowrap;flex-shrink:0;cursor:pointer;}
-.nav-search{flex:1;max-width:580px;display:flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;height:44px;}
-.search-kw{flex:1;display:flex;align-items:center;padding:0 12px;gap:8px;border-right:1px solid var(--border);}
-.search-kw input,.search-loc input{border:none;outline:none;font-family:inherit;font-size:14px;color:var(--text);background:transparent;width:100%;}
-.search-kw input::placeholder,.search-loc input::placeholder{color:var(--text-l);}
-.search-loc{display:flex;align-items:center;padding:0 12px;gap:8px;min-width:120px;}
-.search-btn{background:var(--orange);border:none;width:50px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;}
-.search-btn:hover{background:var(--orange-h);}
+.navbar-inner{max-width:1280px;margin:0 auto;padding:0 20px;height:64px;display:flex;align-items:center;gap:14px;}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:22px;color:var(--green);flex-shrink:0;cursor:pointer;display:flex;align-items:center;gap:5px;}
+.nav-logo .dot{width:7px;height:7px;background:var(--amber-h);border-radius:50%;}
+.nav-search{flex:1;max-width:520px;display:flex;border:1.5px solid var(--border);border-radius:50px;overflow:hidden;height:40px;background:#faf9f5;}
+.search-kw{flex:1;display:flex;align-items:center;padding:0 12px;gap:7px;border-right:1px solid var(--border);}
+.search-kw input,.search-loc input{border:none;outline:none;font-family:inherit;font-size:13px;color:var(--text);background:transparent;width:100%;}
+.search-loc{display:flex;align-items:center;padding:0 12px;gap:6px;min-width:100px;}
+.search-btn{background:var(--green);border:none;width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s;border-radius:0 50px 50px 0;}
+.search-btn:hover{background:var(--green-h);}
 .nav-links{display:flex;align-items:center;gap:2px;margin-left:auto;flex-shrink:0;}
-.nav-link{padding:8px 11px;font-size:14px;font-weight:600;color:var(--text);border-radius:4px;white-space:nowrap;cursor:pointer;transition:background .12s;}
-.nav-link:hover{background:var(--bg);}
-.nav-link.signin{border:1px solid var(--text);padding:7px 15px;}
-.nav-link.signin:hover{background:var(--text);color:#fff;}
-.hamburger{display:none;background:none;border:none;font-size:24px;color:var(--text);margin-left:auto;}
-
-/* ── Mobile Menu ── */
-.mobile-menu{position:fixed;inset:0;background:#fff;z-index:600;display:flex;flex-direction:column;padding:20px;transform:translateX(100%);transition:transform .25s;}
-.mobile-menu.open{transform:translateX(0);}
-.mm-close{align-self:flex-end;background:none;border:none;font-size:28px;color:var(--text);margin-bottom:20px;}
-.mm-search{display:flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:24px;}
-.mm-search input{flex:1;border:none;outline:none;padding:12px 14px;font-family:inherit;font-size:14px;}
-.mm-search button{background:var(--orange);border:none;color:#fff;padding:12px 16px;}
-.mm-links{display:flex;flex-direction:column;gap:4px;}
-.mm-link{padding:14px 12px;font-size:16px;font-weight:700;color:var(--text);border-radius:6px;cursor:pointer;border-bottom:1px solid var(--border);}
-.mm-link:hover{color:var(--orange);}
-.mm-signin{margin-top:16px;background:var(--orange);color:#fff;border:none;border-radius:4px;padding:14px;font-size:16px;font-weight:800;width:100%;cursor:pointer;}
-
-/* ── Hero ── */
-.hero-wrap{background:#111;width:100%;overflow:hidden;line-height:0;position:relative;}
-/*
-  ╔══════════════════════════════════════════════════════════╗
-  ║  HOW TO CHANGE THE BIG BANNER PHOTO (hero image)        ║
-  ║                                                          ║
-  ║  Option A — Use a photo URL from the web:               ║
-  ║    Find a photo online → right-click it → "Copy image   ║
-  ║    address" → paste it into src="YOUR_URL_HERE"          ║
-  ║                                                          ║
-  ║  Option B — Use your own photo file:                    ║
-  ║    Put your photo (e.g. hero.jpg) in the same folder    ║
-  ║    as this HTML file, then use: src="hero.jpg"          ║
-  ║                                                          ║
-  ║  Option C — Free stock photos (no account needed):      ║
-  ║    Go to unsplash.com → search "farmers market Kenya"   ║
-  ║    → click photo → right-click → Copy image address     ║
-  ╚══════════════════════════════════════════════════════════╝
-*/
-.hero-img{width:100%;height:440px;object-fit:cover;object-position:center 30%;display:block;}
-
-/* ── Page grid ── */
-.page-wrap{max-width:1280px;margin:0 auto;padding:32px 24px 60px;display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:start;}
+.nav-link{padding:7px 11px;font-size:13px;font-weight:600;color:var(--text);border-radius:50px;white-space:nowrap;cursor:pointer;transition:background .12s;}
+.nav-link:hover{background:#f0f0e8;}
+.nav-link.apply-btn{background:var(--green);color:#fff;}
+.nav-link.apply-btn:hover{background:var(--green-h);}
+.hamburger{display:none;background:none;border:none;font-size:24px;color:var(--text);margin-left:auto;padding:4px;}
+.mmenu{position:fixed;inset:0;background:#fff;z-index:600;display:flex;flex-direction:column;padding:20px;transform:translateX(100%);transition:transform .25s;}
+.mmenu.open{transform:translateX(0);}
+.mm-close{align-self:flex-end;background:none;border:none;font-size:28px;margin-bottom:20px;}
+.mm-search{display:flex;border:1.5px solid var(--border);border-radius:50px;overflow:hidden;margin-bottom:20px;}
+.mm-search input{flex:1;border:none;outline:none;padding:11px 16px;font-family:inherit;font-size:14px;background:#faf9f5;}
+.mm-search button{background:var(--green);border:none;color:#fff;padding:0 16px;}
+.mm-links{display:flex;flex-direction:column;}
+.mm-link{padding:14px 8px;font-size:16px;font-weight:700;cursor:pointer;border-bottom:1px solid var(--border);}
+.mm-link:hover{color:var(--green);}
+.mm-apply{margin-top:18px;background:var(--green);color:#fff;border:none;border-radius:50px;padding:15px;font-size:16px;font-weight:700;width:100%;}
+.hero-wrap{position:relative;overflow:hidden;}
+.hero-img{width:100%;height:460px;object-fit:cover;object-position:center 40%;display:block;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08),rgba(0,0,0,.55));}
+.hero-content{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);max-width:1280px;width:100%;padding:0 24px;color:#fff;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--amber);color:#5c3d00;font-size:11px;font-weight:700;padding:4px 12px;border-radius:50px;margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px;}
+.hero-title{font-family:'DM Serif Display',serif;font-size:40px;line-height:1.1;margin-bottom:8px;text-shadow:0 2px 8px rgba(0,0,0,.35);}
+.hero-sub{font-size:15px;opacity:.9;}
+.page-wrap{max-width:1280px;margin:0 auto;padding:32px 24px 60px;display:grid;grid-template-columns:1fr 300px;gap:36px;align-items:start;}
 .main-col{min-width:0;}
-
-/* ── Sidebar ── */
-.sidebar{position:sticky;top:80px;}
-.sidebar-box{background:#fff;border:1px solid var(--border);border-radius:8px;padding:24px;}
-.sb-label{font-size:18px;font-weight:800;margin-bottom:4px;}
-.sb-sub{font-size:14px;color:var(--text-l);margin-bottom:20px;}
-.sb-btn{display:block;width:100%;background:var(--orange);color:#fff;border:none;border-radius:4px;padding:14px;font-size:16px;font-weight:800;text-align:center;cursor:pointer;transition:background .15s;}
-.sb-btn:hover{background:var(--orange-h);}
-
-/* ── Event header ── */
-.status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
-.ended-badge{display:inline-flex;align-items:center;gap:6px;background:#f4f3f7;border:1px solid #c4bdd6;border-radius:4px;padding:5px 12px;font-size:13px;font-weight:700;}
-.badge-i{width:16px;height:16px;background:var(--text);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:900;flex-shrink:0;}
-.action-btns{display:flex;gap:14px;}
-.act-btn{background:none;border:none;color:var(--orange);padding:4px;cursor:pointer;display:flex;align-items:center;transition:opacity .15s;}
-.act-btn:hover{opacity:.65;}
-.event-title{font-size:32px;font-weight:900;line-height:1.2;margin-bottom:20px;letter-spacing:-.5px;}
-.org-row{display:flex;align-items:center;gap:14px;padding:16px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:20px;}
-
-/*
-  ╔══════════════════════════════════════════════════════════╗
-  ║  HOW TO CHANGE THE ORGANISER AVATAR PHOTO               ║
-  ║  Replace the src URL inside .org-avatar img below       ║
-  ╚══════════════════════════════════════════════════════════╝
-*/
-.org-avatar{width:48px;height:48px;border-radius:50%;background:#e8e2f0;border:1px solid var(--border);overflow:hidden;flex-shrink:0;}
-.org-avatar img{width:100%;height:100%;object-fit:cover;}
-.org-details{flex:1;}
-.org-by{font-size:14px;color:var(--text-l);}
-.org-name{font-size:15px;font-weight:800;color:var(--orange);cursor:pointer;}
+.sidebar{position:sticky;top:76px;}
+.sb-box{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:22px;box-shadow:0 4px 18px rgba(0,0,0,.06);}
+.sb-label{font-size:17px;font-weight:800;margin-bottom:3px;}
+.sb-sub{font-size:13px;color:var(--muted);margin-bottom:6px;}
+.sb-div{height:1px;background:var(--border);margin:14px 0;}
+.sb-info{font-size:12px;color:var(--muted);margin-bottom:4px;display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
+.sb-btn{display:block;width:100%;background:var(--green);color:#fff;border:none;border-radius:50px;padding:14px;font-size:15px;font-weight:700;text-align:center;cursor:pointer;transition:background .15s;margin-top:14px;}
+.sb-btn:hover{background:var(--green-h);}
+.sb-btn.out{background:transparent;border:2px solid var(--green);color:var(--green);margin-top:8px;}
+.sb-btn.out:hover{background:var(--green);color:#fff;}
+.status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.live-badge{display:inline-flex;align-items:center;gap:6px;background:#dcfce7;border:1.5px solid #86efac;border-radius:50px;padding:5px 14px;font-size:12px;font-weight:700;color:#14532d;}
+.pulse{width:7px;height:7px;background:#16a34a;border-radius:50%;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(1.4);}}
+.act-btns{display:flex;gap:8px;}
+.act-btn{background:#f0f0e8;border:none;color:var(--green);padding:8px;cursor:pointer;display:flex;align-items:center;border-radius:50px;transition:background .15s;}
+.act-btn:hover{background:#e0e0d5;}
+.event-title{font-family:'DM Serif Display',serif;font-size:32px;font-weight:400;line-height:1.2;margin-bottom:18px;}
+.org-row{display:flex;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);margin-bottom:18px;}
+.org-avatar{width:46px;height:46px;border-radius:50%;border:2px solid var(--green-l);overflow:hidden;flex-shrink:0;}
+.org-details{flex:1;min-width:0;}
+.org-by{font-size:12px;color:var(--muted);}
+.org-name{font-size:14px;font-weight:700;color:var(--green);cursor:pointer;}
 .org-name:hover{text-decoration:underline;}
-.org-stats{font-size:13px;color:var(--text-l);margin-top:2px;}
-.follow-btn{border:2px solid var(--text);background:transparent;color:var(--text);font-size:14px;font-weight:700;padding:9px 22px;border-radius:4px;cursor:pointer;font-family:inherit;transition:all .15s;flex-shrink:0;}
-.follow-btn:hover,.follow-btn.following{background:var(--text);color:#fff;}
-.event-meta{display:flex;flex-direction:column;gap:10px;margin-bottom:26px;}
-.meta-row{display:flex;align-items:flex-start;gap:10px;font-size:15px;color:var(--text-l);}
-.meta-ico{flex-shrink:0;margin-top:2px;}
-.meta-link{color:var(--orange);cursor:pointer;font-weight:600;}
+.org-stats{font-size:12px;color:var(--muted);margin-top:1px;}
+.follow-btn{border:2px solid var(--green);background:transparent;color:var(--green);font-size:13px;font-weight:700;padding:7px 18px;border-radius:50px;cursor:pointer;flex-shrink:0;transition:all .15s;}
+.follow-btn:hover,.follow-btn.on{background:var(--green);color:#fff;}
+.meta-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.meta-row{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--muted);}
+.meta-link{color:var(--green);cursor:pointer;font-weight:600;}
 .meta-link:hover{text-decoration:underline;}
-.view-wrap{text-align:center;margin:28px 0 40px;}
-.view-btn{border:2px solid var(--text);background:transparent;color:var(--text);font-size:15px;font-weight:700;padding:13px 44px;border-radius:4px;cursor:pointer;font-family:inherit;transition:all .15s;}
-.view-btn:hover{background:var(--text);color:#fff;}
-.event-details-panel{display:none;background:#f8f7fa;border-radius:8px;padding:20px;margin-bottom:24px;border:1px solid var(--border);}
-.event-details-panel.open{display:block;}
-.event-details-panel h3{font-size:16px;font-weight:800;margin-bottom:10px;}
-.event-details-panel p{font-size:14px;color:var(--text-l);line-height:1.7;}
-
-/* ── Event list cards ── */
-.sec-title{font-size:22px;font-weight:900;margin-bottom:6px;}
-.sec-sub{font-size:14px;color:var(--text-l);margin-bottom:22px;line-height:1.5;}
+.about-box{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:22px;margin-bottom:26px;}
+.about-box h3{font-family:'DM Serif Display',serif;font-size:19px;font-weight:400;margin-bottom:12px;color:var(--green);}
+.about-box p{font-size:14px;color:var(--muted);line-height:1.8;}
+.price-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;}
+.price-card{background:#f5f7f3;border:1px solid var(--border);border-radius:10px;padding:12px;}
+.price-card h4{font-size:12px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px;}
+.price-card p{font-size:12px;color:var(--muted);line-height:1.6;}
+.sec-title{font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;margin-bottom:5px;color:var(--green);}
+.sec-sub{font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.5;}
 .events-list{border-top:1px solid var(--border);}
-.eli{display:flex;gap:16px;padding:20px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s;}
-.eli:hover{background:#fdf8f6;}
-.eli:hover .eli-title{color:var(--orange);}
+.eli{display:flex;gap:14px;padding:18px 0;border-bottom:1px solid var(--border);cursor:pointer;border-radius:4px;transition:background .1s;}
+.eli:hover{background:#f8f8f2;}
+.eli:hover .eli-title{color:var(--green);}
 .eli-body{flex:1;min-width:0;}
-.eli-title{font-size:16px;font-weight:800;margin-bottom:5px;line-height:1.3;transition:color .15s;}
-.eli-date,.eli-loc,.eli-price{font-size:14px;color:var(--text-l);margin-bottom:3px;}
-.eli-promo{margin-top:5px;display:flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--text-xl);letter-spacing:.5px;text-transform:uppercase;}
-.help-ico{width:14px;height:14px;border:1px solid currentColor;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:9px;cursor:pointer;}
-.promo-tooltip{position:relative;}
-.promo-tip-box{display:none;position:absolute;bottom:24px;left:50%;transform:translateX(-50%);background:#1E0A3C;color:#fff;font-size:12px;padding:8px 12px;border-radius:6px;width:220px;font-weight:400;line-height:1.5;z-index:10;text-align:left;}
-.promo-tip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#1E0A3C;}
-.promo-tooltip:hover .promo-tip-box{display:block;}
-
-/*
-  ╔══════════════════════════════════════════════════════════╗
-  ║  HOW TO CHANGE EVENT CARD THUMBNAIL PHOTOS              ║
-  ║                                                          ║
-  ║  Each card below has an <img> tag inside .eli-thumb     ║
-  ║  Just replace the src="..." with your own photo URL     ║
-  ║  or local file path e.g. src="images/gala.jpg"         ║
-  ╚══════════════════════════════════════════════════════════╝
-*/
-.eli-thumb{width:120px;height:120px;border-radius:6px;flex-shrink:0;overflow:hidden;background:#eee;}
-.eli-thumb img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
-.eli:hover .eli-thumb img{transform:scale(1.05);}
-
-/* ── Still looking ── */
-.still-looking{padding-top:32px;}
-.filter-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;}
-.chip{border:1px solid var(--border);border-radius:30px;padding:9px 18px;font-size:14px;font-weight:600;background:#fff;cursor:pointer;transition:all .15s;}
-.chip:hover{border-color:var(--orange);color:var(--orange);}
-
-/* ── Browse page ── */
-.browse-hero{background:linear-gradient(135deg,#1E0A3C,#4a1580);color:#fff;padding:48px 24px;}
+.eli-title{font-size:15px;font-weight:700;margin-bottom:4px;line-height:1.3;transition:color .15s;}
+.eli-date,.eli-loc{font-size:13px;color:var(--muted);margin-bottom:2px;}
+.eli-price{font-size:13px;font-weight:600;color:var(--text);}
+.eli-promo{margin-top:4px;display:inline-block;font-size:10px;font-weight:700;color:var(--dim);letter-spacing:.5px;text-transform:uppercase;background:#f0f0e8;padding:2px 8px;border-radius:50px;}
+.eli-thumb{width:100px;height:100px;border-radius:12px;flex-shrink:0;overflow:hidden;background:#eee;}
+.eli-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .3s;}
+.eli:hover .eli-thumb img{transform:scale(1.06);}
+.filter-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.chip{border:1.5px solid var(--border);border-radius:50px;padding:8px 16px;font-size:13px;font-weight:600;background:#fff;cursor:pointer;transition:all .15s;}
+.chip:hover{border-color:var(--green);color:var(--green);}
+.browse-hero{background:linear-gradient(135deg,#1b4332,#2d6a4f);color:#fff;padding:48px 24px;}
 .browse-hero-inner{max-width:1280px;margin:0 auto;}
-.browse-hero h1{font-size:36px;font-weight:900;margin-bottom:16px;}
-.browse-search-bar{display:flex;background:#fff;border-radius:4px;overflow:hidden;max-width:640px;}
-.browse-search-bar input{flex:1;border:none;outline:none;padding:14px 16px;font-family:inherit;font-size:15px;color:var(--text);}
-.browse-search-bar button{background:var(--orange);border:none;color:#fff;padding:14px 22px;font-size:15px;font-weight:800;cursor:pointer;transition:background .15s;}
-.browse-search-bar button:hover{background:var(--orange-h);}
-.browse-content{max-width:1280px;margin:0 auto;padding:32px 24px 60px;}
-.browse-filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
-.bfilter{border:1px solid var(--border);border-radius:30px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;background:#fff;color:var(--text);transition:all .15s;}
-.bfilter:hover,.bfilter.active{background:var(--text);color:#fff;border-color:var(--text);}
-.browse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
-.event-card-grid{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;}
-.event-card-grid:hover{box-shadow:0 8px 32px rgba(0,0,0,.12);transform:translateY(-3px);}
-.ecg-img{height:180px;overflow:hidden;background:#eee;}
+.browse-hero h1{font-family:'DM Serif Display',serif;font-size:36px;font-weight:400;margin-bottom:8px;}
+.browse-bar{display:flex;background:#fff;border-radius:50px;overflow:hidden;max-width:580px;box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.browse-bar input{flex:1;border:none;outline:none;padding:13px 18px;font-family:inherit;font-size:14px;color:var(--text);}
+.browse-bar button{background:var(--amber-h);border:none;color:#fff;padding:13px 22px;font-size:14px;font-weight:700;cursor:pointer;border-radius:0 50px 50px 0;}
+.browse-content{max-width:1280px;margin:0 auto;padding:28px 24px 60px;}
+.browse-filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;}
+.bfilter{border:1.5px solid var(--border);border-radius:50px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer;background:#fff;transition:all .15s;}
+.bfilter:hover,.bfilter.active{background:var(--green);color:#fff;border-color:var(--green);}
+.browse-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.ecg{background:#fff;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s;}
+.ecg:hover{box-shadow:0 10px 36px rgba(0,0,0,.1);transform:translateY(-3px);}
+.ecg-img{height:168px;overflow:hidden;background:#eee;}
 .ecg-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s;}
-.event-card-grid:hover .ecg-img img{transform:scale(1.05);}
+.ecg:hover .ecg-img img{transform:scale(1.05);}
 .ecg-body{padding:14px 16px 16px;}
-.ecg-tag{display:inline-block;background:#fef3c7;color:#92400e;font-size:11px;font-weight:700;padding:2px 8px;border-radius:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px;}
-.ecg-tag.free{background:#dcfce7;color:#14532d;}
-.ecg-title{font-size:15px;font-weight:800;margin-bottom:6px;line-height:1.3;}
-.ecg-date{font-size:13px;color:var(--text-l);margin-bottom:2px;}
-.ecg-loc{font-size:13px;color:var(--text-l);margin-bottom:8px;}
-.ecg-price{font-size:14px;font-weight:700;}
-
-/* ── Create page ── */
-.create-page{max-width:720px;margin:0 auto;padding:40px 24px 80px;}
-.create-page h1{font-size:30px;font-weight:900;margin-bottom:8px;}
-.create-page .sub{font-size:15px;color:var(--text-l);margin-bottom:32px;}
-.form-group{margin-bottom:22px;}
-.form-group label{display:block;font-size:14px;font-weight:700;margin-bottom:6px;}
-.form-group input,.form-group textarea,.form-group select{width:100%;border:1px solid var(--border);border-radius:4px;padding:12px 14px;font-family:inherit;font-size:14px;color:var(--text);outline:none;transition:border-color .15s;background:#fff;}
-.form-group input:focus,.form-group textarea:focus,.form-group select:focus{border-color:var(--orange);}
-.form-group textarea{resize:vertical;min-height:120px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-.ticket-section{background:#f8f7fa;border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:22px;}
-.ticket-section h3{font-size:16px;font-weight:800;margin-bottom:16px;}
-.ticket-type{display:flex;align-items:center;gap:12px;padding:12px;background:#fff;border:1px solid var(--border);border-radius:6px;margin-bottom:10px;cursor:pointer;transition:border-color .15s;}
-.ticket-type:hover{border-color:var(--orange);}
-.ticket-type.selected{border-color:var(--orange);background:#fff8f6;}
-.submit-btn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:4px;padding:15px;font-size:16px;font-weight:800;cursor:pointer;transition:background .15s;}
-.submit-btn:hover{background:var(--orange-h);}
-
-/* ── Tickets page ── */
-.tickets-page{max-width:860px;margin:0 auto;padding:40px 24px 80px;}
-.tickets-page h1{font-size:28px;font-weight:900;margin-bottom:24px;}
-.ticket-card{background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden;display:flex;margin-bottom:16px;cursor:pointer;transition:box-shadow .2s;}
-.ticket-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.1);}
-.tc-img{width:130px;flex-shrink:0;overflow:hidden;}
+.ecg-tag{display:inline-block;background:#dcfce7;color:#14532d;font-size:10px;font-weight:700;padding:2px 9px;border-radius:50px;margin-bottom:7px;text-transform:uppercase;letter-spacing:.4px;}
+.ecg-tag.free{background:#fef3c7;color:#92400e;}
+.ecg-title{font-size:14px;font-weight:700;margin-bottom:5px;line-height:1.3;}
+.ecg-date,.ecg-loc{font-size:12px;color:var(--muted);margin-bottom:2px;}
+.ecg-price{font-size:13px;font-weight:700;color:var(--green);margin-top:6px;}
+.tickets-page{max-width:820px;margin:0 auto;padding:36px 24px 80px;}
+.tickets-page h1{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;margin-bottom:22px;color:var(--green);}
+.tc{background:#fff;border:1.5px solid var(--border);border-radius:14px;overflow:hidden;display:flex;margin-bottom:14px;cursor:pointer;transition:box-shadow .2s;}
+.tc:hover{box-shadow:0 6px 24px rgba(0,0,0,.1);}
+.tc-img{width:120px;flex-shrink:0;overflow:hidden;}
 .tc-img img{width:100%;height:100%;object-fit:cover;}
-.tc-body{padding:16px 20px;flex:1;}
-.tc-title{font-size:16px;font-weight:800;margin-bottom:4px;}
-.tc-date{font-size:13px;color:var(--text-l);margin-bottom:2px;}
-.tc-loc{font-size:13px;color:var(--text-l);margin-bottom:10px;}
-.tc-status{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+.tc-body{padding:14px 18px;flex:1;min-width:0;}
+.tc-title{font-size:15px;font-weight:700;margin-bottom:3px;}
+.tc-date,.tc-loc{font-size:12px;color:var(--muted);margin-bottom:2px;}
+.tc-status{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-top:8px;}
 .tc-status.upcoming{background:#dcfce7;color:#14532d;}
-.tc-status.ended{background:#f4f3f7;color:var(--text-l);}
-.tc-right{padding:16px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:10px;border-left:1px solid var(--border);}
-.tc-price{font-size:16px;font-weight:800;}
-.view-ticket-btn{background:var(--orange);color:#fff;border:none;border-radius:4px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;}
-
-/* ── Help page ── */
-.help-page{max-width:860px;margin:0 auto;padding:40px 24px 80px;}
-.help-page h1{font-size:28px;font-weight:900;margin-bottom:8px;}
-.help-page .sub{color:var(--text-l);margin-bottom:32px;}
-.help-search{display:flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:32px;}
-.help-search input{flex:1;border:none;outline:none;padding:13px 16px;font-family:inherit;font-size:15px;}
-.help-search button{background:var(--orange);border:none;color:#fff;padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer;}
-.help-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:32px;}
-.help-cat{background:#fff;border:1px solid var(--border);border-radius:8px;padding:20px;cursor:pointer;text-align:center;transition:all .15s;}
-.help-cat:hover{border-color:var(--orange);box-shadow:0 4px 16px rgba(0,0,0,.08);}
-.help-cat .hc-icon{font-size:32px;margin-bottom:8px;}
-.help-cat h3{font-size:14px;font-weight:800;}
-.help-cat p{font-size:12px;color:var(--text-l);margin-top:4px;}
-.faq-list{display:flex;flex-direction:column;gap:4px;}
-.faq-item{background:#fff;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
-.faq-q{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;font-weight:700;font-size:15px;}
-.faq-q:hover{color:var(--orange);}
-.faq-arrow{transition:transform .2s;}
-.faq-item.open .faq-arrow{transform:rotate(180deg);}
-.faq-a{display:none;padding:0 16px 14px;font-size:14px;color:var(--text-l);line-height:1.7;}
+.tc-right{padding:14px;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:8px;border-left:1px solid var(--border);}
+.tc-price{font-size:15px;font-weight:800;color:var(--green);}
+.view-tc{background:var(--green);color:#fff;border:none;border-radius:50px;padding:7px 16px;font-size:12px;font-weight:700;cursor:pointer;}
+.help-page{max-width:820px;margin:0 auto;padding:36px 24px 80px;}
+.help-page h1{font-family:'DM Serif Display',serif;font-size:28px;font-weight:400;margin-bottom:7px;color:var(--green);}
+.help-page .sub{color:var(--muted);margin-bottom:28px;font-size:14px;}
+.help-search{display:flex;border:1.5px solid var(--border);border-radius:50px;overflow:hidden;margin-bottom:28px;background:#fff;}
+.help-search input{flex:1;border:none;outline:none;padding:12px 16px;font-family:inherit;font-size:14px;}
+.help-search button{background:var(--green);border:none;color:#fff;padding:12px 20px;font-size:13px;font-weight:700;cursor:pointer;border-radius:0 50px 50px 0;}
+.help-cats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
+.help-cat{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:20px;cursor:pointer;text-align:center;transition:all .15s;}
+.help-cat:hover{border-color:var(--green);box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.help-cat .hi{font-size:28px;margin-bottom:8px;}
+.help-cat h3{font-size:13px;font-weight:700;}
+.help-cat p{font-size:11px;color:var(--muted);margin-top:3px;}
+.faq-list{display:flex;flex-direction:column;gap:5px;}
+.faq-item{background:#fff;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;}
+.faq-q{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer;font-weight:700;font-size:14px;}
+.faq-q:hover{color:var(--green);}
+.faq-arr{transition:transform .2s;color:var(--muted);}
+.faq-item.open .faq-arr{transform:rotate(180deg);}
+.faq-a{display:none;padding:0 16px 14px;font-size:13px;color:var(--muted);line-height:1.7;}
 .faq-item.open .faq-a{display:block;}
-
-/* ── Modals ── */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;padding:16px;}
-.modal-overlay.open{opacity:1;pointer-events:all;}
-.modal-box{background:#fff;border-radius:12px;padding:32px;max-width:460px;width:100%;position:relative;transform:translateY(20px);transition:transform .2s;max-height:90vh;overflow-y:auto;}
-.modal-overlay.open .modal-box{transform:translateY(0);}
-.modal-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;color:var(--text-l);cursor:pointer;}
-.modal-close:hover{color:var(--text);}
-.modal-title{font-size:22px;font-weight:900;margin-bottom:20px;}
-.signin-form .form-group{margin-bottom:16px;}
-.signin-form label{display:block;font-size:13px;font-weight:700;margin-bottom:5px;}
-.signin-form input{width:100%;border:1px solid var(--border);border-radius:4px;padding:11px 13px;font-family:inherit;font-size:14px;outline:none;transition:border-color .15s;}
-.signin-form input:focus{border-color:var(--orange);}
-.signin-btn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:4px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;margin-top:4px;transition:background .15s;}
-.signin-btn:hover{background:var(--orange-h);}
-.signin-divider{text-align:center;font-size:13px;color:var(--text-l);margin:16px 0;position:relative;}
-.signin-divider::before,.signin-divider::after{content:'';position:absolute;top:50%;width:calc(50% - 24px);height:1px;background:var(--border);}
-.signin-divider::before{left:0;} .signin-divider::after{right:0;}
-.google-btn{width:100%;border:1px solid var(--border);background:#fff;border-radius:4px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:background .15s;}
-.google-btn:hover{background:#f8f7fa;}
-.signup-link{text-align:center;font-size:14px;margin-top:16px;color:var(--text-l);}
-.signup-link span{color:var(--orange);font-weight:700;cursor:pointer;}
-.share-url-box{display:flex;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:20px;}
-.share-url-box input{flex:1;border:none;outline:none;padding:10px 12px;font-size:13px;color:var(--text-l);}
-.share-url-box button{background:var(--orange);color:#fff;border:none;padding:10px 16px;font-size:13px;font-weight:700;cursor:pointer;}
-.share-options{display:flex;gap:12px;flex-wrap:wrap;}
-.share-opt{flex:1;min-width:80px;border:1px solid var(--border);border-radius:6px;padding:12px 8px;text-align:center;cursor:pointer;transition:all .15s;font-size:13px;font-weight:700;}
-.share-opt:hover{border-color:var(--orange);color:var(--orange);}
-.share-opt .sicon{font-size:24px;margin-bottom:4px;}
-
-/* ── Footer ── */
-footer{background:var(--footer);color:#c4b8e0;}
-.footer-top{max-width:1280px;margin:0 auto;padding:48px 24px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;border-bottom:1px solid rgba(255,255,255,.1);}
-.fc-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:14px;}
-.fc-link{display:block;font-size:13px;color:#9d8ec4;margin-bottom:9px;cursor:pointer;transition:color .15s;}
-.fc-link:hover{color:#fff;}
-.footer-bottom{max-width:1280px;margin:0 auto;padding:20px 24px 32px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;}
-.fb-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;font-size:13px;color:#9d8ec4;}
-.fb-links span{cursor:pointer;} .fb-links span:hover{color:#fff;}
-.fb-sep{color:#4a3a6e;}
-.footer-brand{font-size:21px;font-weight:900;color:#fff;display:flex;gap:8px;align-items:center;}
-.footer-brand .pipe{color:#4a3a6e;font-weight:300;}
-.footer-brand .sub{font-size:14px;font-weight:400;color:#9d8ec4;}
-.footer-copy{font-size:13px;color:#6b5d8e;}
-
-/* ── Mobile bottom bar ── */
-.mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:12px 16px 18px;align-items:center;justify-content:space-between;z-index:300;box-shadow:0 -4px 16px rgba(0,0,0,.09);}
-.mb-label{font-size:13px;font-weight:800;}
-.mb-date{font-size:12px;color:var(--text-l);}
-.mb-btn{background:var(--orange);color:#fff;border:none;border-radius:4px;padding:13px 20px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;transition:background .15s;}
-.mb-btn:hover{background:var(--orange-h);}
-
-/* ── Responsive ── */
-@media(max-width:1024px){.page-wrap{grid-template-columns:1fr 280px;gap:28px;}.nav-link.hide-md{display:none;}.browse-grid{grid-template-columns:repeat(2,1fr);}.help-cats{grid-template-columns:repeat(2,1fr);}}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s;padding:16px;backdrop-filter:blur(3px);}
+.mo.open{opacity:1;pointer-events:all;}
+.reg-box{background:#fff;border-radius:20px;max-width:560px;width:100%;position:relative;transform:translateY(22px);transition:transform .25s;max-height:92vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.22);}
+.mo.open .reg-box{transform:translateY(0);}
+.reg-hdr{background:linear-gradient(135deg,#1b4332,#2d6a4f);padding:20px 24px 16px;border-radius:20px 20px 0 0;color:#fff;position:sticky;top:0;z-index:10;}
+.reg-hdr h2{font-family:'DM Serif Display',serif;font-size:19px;font-weight:400;margin-bottom:2px;}
+.reg-hdr p{font-size:11px;opacity:.8;}
+.reg-close{position:absolute;top:14px;right:16px;background:rgba(255,255,255,.15);border:none;color:#fff;width:28px;height:28px;border-radius:50%;font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s;}
+.reg-close:hover{background:rgba(255,255,255,.3);}
+.step-bar{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(--border);background:#faf9f5;gap:0;overflow-x:auto;}
+.si{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--dim);white-space:nowrap;flex-shrink:0;}
+.si.active{color:var(--green);}
+.si.done{color:var(--green-l);}
+.sn{width:20px;height:20px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;}
+.si.active .sn{background:var(--green);color:#fff;border-color:var(--green);}
+.si.done .sn{background:var(--green-l);color:#fff;border-color:var(--green-l);}
+.ss{flex:1;height:1.5px;background:var(--border);margin:0 6px;min-width:12px;}
+.ss.done{background:var(--green-l);}
+.mb{padding:18px 22px 24px;}
+.fsec{margin-bottom:20px;}
+.fsec-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--green);margin-bottom:11px;padding-bottom:6px;border-bottom:2px solid #dcfce7;}
+.fg{margin-bottom:13px;}
+.fg label.lbl{display:block;font-size:12px;font-weight:700;margin-bottom:5px;color:var(--text);}
+.req{color:#e53e3e;margin-left:2px;}
+.fg input[type=text],.fg input[type=tel],.fg input[type=email],.fg textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-family:inherit;font-size:13px;color:var(--text);outline:none;transition:border-color .15s;background:#faf9f5;}
+.fg input:focus,.fg textarea:focus{border-color:var(--green);background:#fff;}
+.fg textarea{resize:vertical;min-height:76px;}
+.opt-group{display:flex;flex-direction:column;gap:7px;margin-top:5px;}
+.opt-group.grid2{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+label.ropt,label.copt{display:flex;align-items:center;gap:9px;padding:10px 13px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:all .15s;font-size:13px;font-weight:500;user-select:none;-webkit-user-select:none;}
+label.ropt:hover,label.copt:hover{border-color:var(--green-l);background:#f5faf7;}
+label.ropt input,label.copt input{accent-color:var(--green);width:16px;height:16px;flex-shrink:0;cursor:pointer;}
+label.ropt.sel,label.copt.sel{border-color:var(--green);background:#f0faf5;}
+.size-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:5px;}
+label.sz-opt{border:1.5px solid var(--border);border-radius:10px;padding:11px 6px;text-align:center;cursor:pointer;transition:all .15s;display:block;user-select:none;}
+label.sz-opt:hover{border-color:var(--green-l);}
+label.sz-opt.sel{border-color:var(--green);background:#f0faf5;}
+label.sz-opt input{position:absolute;opacity:0;width:0;height:0;}
+.sz-label{font-size:13px;font-weight:700;color:var(--text);}
+.sz-price{font-size:12px;color:var(--green);margin-top:2px;font-weight:700;}
+.sz-note{font-size:10px;color:var(--dim);margin-top:1px;}
+#sizeHint{font-size:11px;color:var(--dim);margin-top:5px;}
+.chime-box{background:#f0faf5;border:1.5px solid #86efac;border-radius:11px;padding:13px 15px;margin-top:8px;}
+.chime-box-lbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.chime-static{font-family:monospace;font-size:18px;font-weight:700;color:var(--green);margin:3px 0 7px;}
+.chime-note{font-size:11px;color:var(--muted);}
+.chime-loading{font-size:12px;color:var(--dim);font-style:italic;margin:3px 0 7px;}
+.terms-box{background:#f5f7f3;border:1.5px solid var(--border);border-radius:11px;padding:13px 15px;font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:13px;}
+.terms-box ul{padding-left:14px;margin-top:5px;}
+.terms-box li{margin-bottom:4px;}
+.act-submit{width:100%;background:var(--green);color:#fff;border:none;border-radius:50px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;transition:background .15s;margin-top:8px;display:block;}
+.act-submit:hover{background:var(--green-h);}
+.act-submit:disabled{background:#9ca38a;cursor:not-allowed;}
+.act-back{width:100%;background:transparent;color:var(--muted);border:1.5px solid var(--border);border-radius:50px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;margin-top:7px;display:block;text-align:center;}
+.act-back:hover{border-color:var(--text);color:var(--text);}
+.form-note{font-size:11px;color:var(--dim);text-align:center;margin-top:9px;}
+.apr-loading{text-align:center;padding:38px 20px;}
+.apr-spinner{width:56px;height:56px;border:4px solid #dcfce7;border-top-color:var(--green);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 18px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.apr-title{font-family:'DM Serif Display',serif;font-size:20px;color:var(--green);margin-bottom:5px;}
+.apr-sub{font-size:13px;color:var(--muted);margin-bottom:16px;}
+.dots{display:flex;justify-content:center;gap:7px;}
+.dots span{width:7px;height:7px;background:var(--green-l);border-radius:50%;animation:db 1.2s infinite ease-in-out;}
+.dots span:nth-child(2){animation-delay:.2s;}.dots span:nth-child(3){animation-delay:.4s;}
+@keyframes db{0%,80%,100%{transform:scale(.6);opacity:.4;}40%{transform:scale(1.1);opacity:1;}}
+.apr-success{text-align:center;padding:28px 20px;}
+.apr-icon{width:72px;height:72px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;animation:pop .4s cubic-bezier(.175,.885,.32,1.275);}
+@keyframes pop{0%{transform:scale(0);}100%{transform:scale(1);}}
+.apr-badge{display:inline-block;background:#dcfce7;color:#14532d;font-size:11px;font-weight:700;padding:3px 12px;border-radius:50px;border:1.5px solid #86efac;margin-bottom:10px;text-transform:uppercase;letter-spacing:.4px;}
+.apr-name{font-family:'DM Serif Display',serif;font-size:20px;color:var(--text);margin-bottom:7px;}
+.apr-msg{font-size:13px;color:var(--muted);line-height:1.7;max-width:360px;margin:0 auto;}
+.apr-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:12px;}
+.apr-chip{background:#f5f7f3;border:1px solid var(--border);border-radius:50px;padding:4px 12px;font-size:11px;font-weight:600;color:var(--muted);}
+.amt-display{background:linear-gradient(135deg,#1b4332,#2d6a4f);border-radius:13px;padding:18px;color:#fff;text-align:center;margin-bottom:16px;}
+.amt-lbl{font-size:11px;opacity:.8;margin-bottom:3px;text-transform:uppercase;letter-spacing:.4px;}
+.amt-val{font-family:'DM Serif Display',serif;font-size:40px;font-weight:400;margin-bottom:3px;}
+.amt-brk{font-size:11px;opacity:.7;}
+.pay-instructions{background:#f0faf5;border:1.5px solid #86efac;border-radius:13px;padding:15px 17px;margin-bottom:16px;}
+.pay-instructions h4{font-size:12px;font-weight:700;color:var(--green);margin-bottom:9px;}
+.pay-row{display:flex;gap:9px;align-items:flex-start;margin-bottom:9px;font-size:12px;color:var(--muted);}
+.pay-num{width:20px;height:20px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;}
+.chime-big{font-family:monospace;font-size:18px;font-weight:700;color:var(--green);background:#fff;border:1.5px solid #86efac;border-radius:10px;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin:9px 0;letter-spacing:.4px;}
+.copy-btn{display:inline-flex;align-items:center;gap:4px;background:var(--green);color:#fff;border:none;border-radius:50px;padding:5px 13px;font-size:11px;font-weight:700;cursor:pointer;transition:background .15s;white-space:nowrap;flex-shrink:0;}
+.copy-btn:hover{background:var(--green-h);}
+.copy-btn.copied{background:#16a34a;}
+.upload-area{border:2px dashed var(--border);border-radius:11px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;background:#faf9f5;position:relative;overflow:hidden;}
+.upload-area:hover{border-color:var(--green);background:#f0faf5;}
+.upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.upload-icon{font-size:28px;margin-bottom:5px;}
+.upload-lbl{font-size:13px;font-weight:600;color:var(--green);}
+.upload-sub{font-size:11px;color:var(--dim);margin-top:3px;}
+.upload-preview{margin-top:10px;border-radius:9px;overflow:hidden;max-height:160px;display:none;}
+.upload-preview img{width:100%;object-fit:cover;}
+.upload-fname{margin-top:7px;font-size:11px;color:var(--green);font-weight:600;display:none;}
+.succ-inner{text-align:center;padding:16px 8px;}
+.succ-icon{width:68px;height:68px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 14px;}
+.succ-inner h3{font-family:'DM Serif Display',serif;font-size:21px;font-weight:400;margin-bottom:7px;color:var(--green);}
+.succ-inner p{font-size:13px;color:var(--muted);line-height:1.7;}
+.ref-code{font-size:11px;background:#f0faf5;border:1px solid #86efac;border-radius:8px;padding:7px 13px;margin:13px auto;font-weight:600;color:#14532d;display:inline-block;word-break:break-all;}
+.sm-box{background:#fff;border-radius:18px;padding:28px;max-width:400px;width:100%;position:relative;transform:translateY(22px);transition:transform .25s;box-shadow:0 24px 80px rgba(0,0,0,.22);}
+.mo.open .sm-box{transform:translateY(0);}
+.sm-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:20px;color:var(--muted);cursor:pointer;}
+.sm-close:hover{color:var(--text);}
+.sm-title{font-family:'DM Serif Display',serif;font-size:22px;font-weight:400;margin-bottom:18px;color:var(--green);}
+.sin-fg{margin-bottom:14px;}
+.sin-fg label{display:block;font-size:12px;font-weight:700;margin-bottom:4px;}
+.sin-fg input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:10px 13px;font-family:inherit;font-size:13px;outline:none;transition:border-color .15s;background:#faf9f5;}
+.sin-fg input:focus{border-color:var(--green);}
+.sin-btn{width:100%;background:var(--green);color:#fff;border:none;border-radius:50px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;transition:background .15s;}
+.sin-btn:hover{background:var(--green-h);}
+.sin-div{text-align:center;font-size:12px;color:var(--muted);margin:12px 0;position:relative;}
+.sin-div::before,.sin-div::after{content:'';position:absolute;top:50%;width:calc(50% - 22px);height:1px;background:var(--border);}
+.sin-div::before{left:0;}.sin-div::after{right:0;}
+.g-btn{width:100%;border:1.5px solid var(--border);background:#fff;border-radius:10px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .15s;}
+.g-btn:hover{background:#faf9f5;}
+.su-link{text-align:center;font-size:13px;margin-top:12px;color:var(--muted);}
+.su-link span{color:var(--green);font-weight:700;cursor:pointer;}
+.share-url-box{display:flex;border:1.5px solid var(--border);border-radius:50px;overflow:hidden;margin-bottom:18px;background:#faf9f5;}
+.share-url-box input{flex:1;border:none;outline:none;padding:9px 15px;font-size:12px;color:var(--muted);background:transparent;}
+.share-url-box button{background:var(--green);color:#fff;border:none;padding:9px 16px;font-size:12px;font-weight:700;cursor:pointer;border-radius:0 50px 50px 0;}
+.share-opts{display:flex;gap:8px;flex-wrap:wrap;}
+.share-opt{flex:1;min-width:70px;border:1.5px solid var(--border);border-radius:12px;padding:12px 6px;text-align:center;cursor:pointer;transition:all .15s;font-size:12px;font-weight:700;background:#fff;}
+.share-opt:hover{border-color:var(--green);color:var(--green);}
+.share-opt .si-icon{font-size:22px;margin-bottom:3px;}
+.spn{display:inline-block;width:15px;height:15px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:5px;}
+footer{background:var(--footer);color:#a7c9b5;}
+.ft-top{max-width:1280px;margin:0 auto;padding:44px 24px 36px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;border-bottom:1px solid rgba(255,255,255,.1);}
+.ft-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:12px;text-transform:uppercase;letter-spacing:.4px;}
+.ft-link{display:block;font-size:12px;color:#7aab8e;margin-bottom:8px;cursor:pointer;transition:color .15s;}
+.ft-link:hover{color:#fff;}
+.ft-bot{max-width:1280px;margin:0 auto;padding:18px 24px 28px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;}
+.ft-brand{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;display:flex;gap:7px;align-items:center;}
+.ft-brand .pipe{color:#2d6a4f;}
+.ft-brand .sub{font-size:12px;font-family:'DM Sans',sans-serif;color:#7aab8e;}
+.ft-copy{font-size:12px;color:#5a8a6e;}
+.mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);padding:10px 16px 18px;align-items:center;justify-content:space-between;z-index:300;box-shadow:0 -4px 16px rgba(0,0,0,.1);}
+.mob-bar-text .t{font-size:13px;font-weight:800;}
+.mob-bar-text .s{font-size:11px;color:var(--muted);}
+.mob-bar-btn{background:var(--green);color:#fff;border:none;border-radius:50px;padding:12px 22px;font-size:14px;font-weight:700;cursor:pointer;}
+@media(max-width:1024px){.page-wrap{grid-template-columns:1fr 260px;gap:28px;}.browse-grid{grid-template-columns:repeat(2,1fr);}.help-cats{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:768px){
-  .navbar-inner{padding:0 16px;}.nav-search,.nav-links{display:none;}.hamburger{display:block;}
-  .hero-img{height:220px;}
-  .page-wrap{grid-template-columns:1fr;padding:16px 16px 90px;gap:0;}.sidebar{display:none;}.mob-bar{display:flex;}
-  .event-title{font-size:22px;}.sec-title{font-size:18px;}
-  .eli-thumb{width:96px;height:96px;}
-  .footer-top{grid-template-columns:1fr 1fr;padding:32px 16px 28px;gap:20px;}.footer-bottom{padding:18px 16px 28px;}
-  .browse-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}.help-cats{grid-template-columns:1fr 1fr;}.tc-img{width:90px;}
+  .navbar-inner{padding:0 14px;}.nav-search,.nav-links{display:none;}.hamburger{display:block;}
+  .hero-img{height:260px;}.hero-title{font-size:24px;}.hero-content{bottom:18px;padding:0 16px;}
+  .page-wrap{grid-template-columns:1fr;padding:16px 14px 88px;gap:0;}.sidebar{display:none;}.mob-bar{display:flex;}
+  .event-title{font-size:22px;}.price-grid{grid-template-columns:1fr;}
+  .eli-thumb{width:86px;height:86px;}
+  .ft-top{grid-template-columns:1fr 1fr;padding:28px 16px 24px;gap:18px;}.ft-bot{padding:14px 16px 24px;}
+  .browse-grid{grid-template-columns:1fr;}.help-cats{grid-template-columns:1fr 1fr;}
+  .tc-img{width:90px;}
+  .mo{padding:0;align-items:flex-end;}
+  .reg-box,.sm-box{border-radius:18px 18px 0 0;max-height:90vh;width:100%;max-width:100%;}
+  .reg-hdr{border-radius:18px 18px 0 0;}
+  .opt-group.grid2{grid-template-columns:1fr;}
+  .size-grid{grid-template-columns:repeat(3,1fr);}
+  .chime-big{font-size:15px;}
 }
-@media(max-width:420px){.footer-top{grid-template-columns:1fr;}.event-title{font-size:20px;}.help-cats{grid-template-columns:1fr;}}
+@media(max-width:480px){.ft-top{grid-template-columns:1fr;}.help-cats{grid-template-columns:1fr;}.size-grid{grid-template-columns:1fr 1fr;}.step-bar{padding:8px 12px;}.si{font-size:10px;}.ss{min-width:8px;}}
 </style>
 </head>
 <body>
-
 <div id="toast"></div>
-<div class="mobile-menu" id="mobileMenu">
-  <button class="mm-close" onclick="closeMobileMenu()">✕</button>
-  <div class="mm-search"><input type="text" id="mmSearchInput" placeholder="Search events…"><button onclick="doSearch()">🔍</button></div>
+
+<div class="mmenu" id="mmenu">
+  <button class="mm-close" onclick="closeMM()">&#10005;</button>
+  <div class="mm-search"><input type="text" id="mmq" placeholder="Search events&#8230;"><button onclick="doSearch()">&#128269;</button></div>
   <div class="mm-links">
-    <div class="mm-link" onclick="navigate('browse');closeMobileMenu()">Find Events</div>
-    <div class="mm-link" onclick="navigate('create');closeMobileMenu()">Create Events</div>
-    <div class="mm-link" onclick="navigate('help');closeMobileMenu()">Help Center</div>
-    <div class="mm-link" onclick="navigate('tickets');closeMobileMenu()">Find My Tickets</div>
+    <div class="mm-link" onclick="nav('browse');closeMM()">Find Events</div>
+    <div class="mm-link" onclick="nav('help');closeMM()">Help Center</div>
+    <div class="mm-link" onclick="nav('tickets');closeMM()">My Tickets</div>
   </div>
-  <button class="mm-signin" onclick="openModal('signinModal');closeMobileMenu()">Sign In</button>
+  <button class="mm-apply" onclick="openReg();closeMM()">Apply as Vendor</button>
 </div>
 
 <nav class="navbar">
   <div class="navbar-inner">
-    <span class="nav-logo" onclick="navigate('home')">EventsKenya</span>
+    <span class="nav-logo" onclick="nav('home')">EventHub<span class="dot"></span></span>
     <div class="nav-search">
       <div class="search-kw">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6F7287" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="navSearchInput" placeholder="Search events" onkeydown="if(event.key==='Enter')doSearch()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9b9b82" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="navq" placeholder="Search events" onkeydown="if(event.key==='Enter')doSearch()">
       </div>
       <div class="search-loc">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6F7287" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-        <input type="text" value="Nairobi">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#9b9b82" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        <input type="text" value="Atlanta">
       </div>
       <button class="search-btn" onclick="doSearch()">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
     </div>
     <div class="nav-links">
-      <span class="nav-link hide-md" onclick="showToast('No new updates right now')">Updates</span>
-      <span class="nav-link" onclick="navigate('browse')">Find Events</span>
-      <span class="nav-link hide-md" onclick="navigate('create')">Create Events</span>
-      <span class="nav-link hide-md" onclick="navigate('help')">Help Center ▾</span>
-      <span class="nav-link" onclick="navigate('tickets')">Find my tickets</span>
-      <span class="nav-link signin" id="signinNavBtn" onclick="openModal('signinModal')">Sign in</span>
+      <span class="nav-link" onclick="nav('browse')">Find Events</span>
+      <span class="nav-link" onclick="nav('help')">Help</span>
+      <span class="nav-link" onclick="nav('tickets')">My Tickets</span>
+      <span class="nav-link apply-btn" onclick="openReg()">Apply as Vendor</span>
+      <span class="nav-link" id="signinBtn" onclick="openModal('signinMo')" style="border:1.5px solid var(--border);border-radius:50px;padding:6px 14px;">Sign in</span>
     </div>
-    <button class="hamburger" onclick="openMobileMenu()">☰</button>
+    <button class="hamburger" onclick="openMM()">&#9776;</button>
   </div>
 </nav>
 
-<!-- ================================================================
-     PAGE: HOME
-================================================================ -->
+<!-- HOME PAGE -->
 <div class="page active" id="page-home">
-
   <div class="hero-wrap">
-    <!--
-    ┌─────────────────────────────────────────────────────────────┐
-    │  HERO BANNER PHOTO                                          │
-    │  Currently showing: Unsplash food market photo              │
-    │                                                             │
-    │  TO CHANGE IT:                                              │
-    │  Replace the URL in src="..." with:                         │
-    │    • Your own photo URL from the web                        │
-    │    • A local file: src="my-photo.jpg"                       │
-    │    • A free Unsplash URL: unsplash.com → copy image link    │
-    └─────────────────────────────────────────────────────────────┘
-    -->
-    <img class="hero-img"
-      src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1400&q=80&auto=format&fit=crop"
-      alt="2026 Nairobi Summer Farmers Market"
-      onerror="this.style.background='linear-gradient(135deg,#2c1005,#7a4010,#3d7010)';this.style.display='block';this.style.height='440px';this.removeAttribute('src');">
+    <img class="hero-img" src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=1400&q=80&auto=format&fit=crop" alt="Atlanta Farmers Market" onerror="this.style.background='linear-gradient(135deg,#1b4332,#2d6a4f)';this.style.display='block';this.removeAttribute('src');">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-tag">&#127807; Farmers Market &middot; Atlanta</div>
+      <div class="hero-title">2026 Atlanta Summer<br>Farmers Market</div>
+      <div class="hero-sub">&#128205; Patterson Park, 770 Deshawn Ave SW, Atlanta, GA 30314</div>
+    </div>
   </div>
 
   <div class="page-wrap">
     <div class="main-col">
-
       <div class="status-row">
-        <div class="ended-badge"><span class="badge-i">i</span> EVENT ENDED</div>
-        <div class="action-btns">
-          <button class="act-btn" onclick="openModal('shareModal')" title="Share">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-          </button>
-          <button class="act-btn" id="saveBtn" onclick="toggleSave()" title="Save">
-            <svg id="heartIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          </button>
+        <div class="live-badge"><span class="pulse"></span> Accepting Vendor Applications</div>
+        <div class="act-btns">
+          <button class="act-btn" onclick="openModal('shareMo')" title="Share"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+          <button class="act-btn" id="saveBtn" onclick="toggleSave()" title="Save"><svg id="heartIcon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
         </div>
       </div>
-
-      <h1 class="event-title">2026 Nairobi Summer Farmers Market</h1>
-
+      <h1 class="event-title">2026 Atlanta Summer Farmers Market</h1>
       <div class="org-row">
-        <div class="org-avatar">
-          <!--
-          ORGANISER AVATAR PHOTO
-          Replace the src below with your organiser's photo
-          e.g. src="organiser.jpg" or a URL from the web
-          -->
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&q=80&auto=format&fit=crop&crop=face"
-               alt="Organiser"
-               onerror="this.style.display='none'">
-        </div>
+        <div class="org-avatar"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=96&q=80&auto=format&fit=crop&crop=face" alt="Organiser" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'"></div>
         <div class="org-details">
-          <div class="org-by">by <span class="org-name" onclick="showToast('Viewing Nairobi Market Collective profile…')">Nairobi Market Collective</span></div>
-          <div class="org-stats">24 followers &nbsp;•&nbsp; 1 event &nbsp;•&nbsp; 89 total attendees</div>
+          <div class="org-by">Organized by <span class="org-name" onclick="showToast('Atlanta Market Collective')">Atlanta Market Collective</span></div>
+          <div class="org-stats">156 followers &middot; 3 events &middot; 480 attendees</div>
         </div>
         <button class="follow-btn" id="followBtn" onclick="toggleFollow()">Follow</button>
       </div>
-
-      <div class="event-meta">
-        <div class="meta-row">
-          <span class="meta-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6F7287" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
-          <span><a class="meta-link" onclick="openMapsNairobi()">Ngong Racecourse</a> &nbsp;·&nbsp; Nairobi, Kenya</span>
+      <div class="meta-list">
+        <div class="meta-row">&#128205; <span><a class="meta-link" onclick="openMaps()">Patterson Park</a> &middot; 770 Deshawn Ave SW, Atlanta, GA 30314</span></div>
+        <div class="meta-row">&#128197; <span>Friday &ndash; Sunday, June 12&ndash;14, 2026</span></div>
+        <div class="meta-row">&#128336; <span>Fri Jun 12: 1:00 PM&ndash;5:00 PM &middot; Sat Jun 13: 10:00 AM&ndash;5:00 PM &middot; Sun Jun 14: 10:00 AM&ndash;5:00 PM</span></div>
+        <div class="meta-row">&#9855; <span>Fully wheelchair accessible &middot; Ramp access &middot; Ample parking</span></div>
+      </div>
+      <div class="about-box">
+        <h3>About This Event</h3>
+        <p>The Atlanta Summer Farmers Market is your premier destination for fresh, locally sourced produce, artisan foods, handcrafted goods, and community spirit. Held at Patterson Park in southwest Atlanta, this three-day market brings together vendors from across Georgia.</p>
+        <h3 style="margin-top:18px;">Booth Pricing (per day)</h3>
+        <div class="price-grid">
+          <div class="price-card"><h4>&#128717; Service / Product Vendors</h4><p>10&times;10: <strong>$65/day</strong><br>10&times;20: <strong>$70/day</strong><br>Food Truck: <strong>$90/day</strong></p></div>
+          <div class="price-card"><h4>&#127869; Food Vendors (Tent/Booth)</h4><p>10&times;10: <strong>$73/day</strong><br>10&times;20: <strong>$78/day</strong><br>Food Truck: <strong>$90/day</strong></p></div>
+          <div class="price-card"><h4>&#128179; Payment</h4><p>Chime only<br>Tag: <strong id="chimeTagAbout">Loading&#8230;</strong><br>Due within 72 hrs of acceptance</p></div>
+          <div class="price-card"><h4>&#9200; Setup</h4><p>2 hrs before opening. Tables &amp; chairs provided. Vendors handle signage &amp; cleanliness.</p></div>
         </div>
-        <div class="meta-row">
-          <span class="meta-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6F7287" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>
-          <span>Friday, May 1–Sunday, May 3 &nbsp;•&nbsp; 8 AM–4 PM</span>
-        </div>
       </div>
 
-      <div class="view-wrap">
-        <button class="view-btn" onclick="toggleEventDetails()">View all event details</button>
-      </div>
-      <div class="event-details-panel" id="eventDetailsPanel">
-        <h3>About this event</h3>
-        <p>The Nairobi Summer Farmers Market is your go-to destination for fresh, locally sourced produce, artisan foods, and handcrafted goods. Held at the iconic Ngong Racecourse, this multi-day market brings together over 80 vendors from across Kenya.<br><br>Expect fresh fruits, vegetables, artisan cheeses, live cooking demos by top Nairobi chefs, children's activities, and free parking on site.</p>
-      </div>
-
-      <h2 class="sec-title">More Food &amp; Drink events</h2>
-      <p class="sec-sub">Browse more Food &amp; Drink events with different dates, prices, and formats to find your next great experience.</p>
-
+      <h2 class="sec-title">More Events in Atlanta</h2>
+      <p class="sec-sub">Browse more Food &amp; Drink and outdoor events in the Atlanta area.</p>
       <div class="events-list">
-
-        <!--
-        ┌──────────────────────────────────────────────────────┐
-        │  EVENT CARD 1 PHOTO                                  │
-        │  Currently: Unsplash gala/banquet photo              │
-        │  To change: replace src="..." with your photo URL   │
-        └──────────────────────────────────────────────────────┘
-        -->
-        <div class="eli" onclick="navigate('browse')">
-          <div class="eli-body">
-            <div class="eli-title">Nairobi Food &amp; Wine Gala — Madaraka Weekend Kickoff</div>
-            <div class="eli-date">Sat, May 31 • 7:00 PM</div>
-            <div class="eli-loc">Radisson Blu Hotel, Upper Hill</div>
-            <div class="eli-price">Starts at KES 2,500</div>
-            <div class="eli-promo">PROMOTED
-              <div class="promo-tooltip"><span class="help-ico">?</span><div class="promo-tip-box">This is a paid promotion. EventsKenya shows promoted events to help you discover relevant experiences.</div></div>
-            </div>
-          </div>
-          <div class="eli-thumb">
-            <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=240&q=80&auto=format&fit=crop"
-                 alt="Nairobi Food & Wine Gala"
-                 onerror="this.parentElement.style.background='#ddd';this.remove()">
-          </div>
-        </div>
-
-        <!--
-        ┌──────────────────────────────────────────────────────┐
-        │  EVENT CARD 2 PHOTO                                  │
-        │  Currently: Unsplash farmers market photo            │
-        │  To change: replace src="..." with your photo URL   │
-        └──────────────────────────────────────────────────────┘
-        -->
-        <div class="eli" onclick="navigate('browse')">
-          <div class="eli-body">
-            <div class="eli-title">2026 Nairobi Summer Weekend Farmers Market</div>
-            <div class="eli-date">Fri, June 27 • 8:00 AM</div>
-            <div class="eli-loc">Karura Forest Gate • Nairobi, Kenya</div>
-            <div class="eli-price">Free</div>
-          </div>
-          <div class="eli-thumb">
-            <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=240&q=80&auto=format&fit=crop"
-                 alt="Nairobi Weekend Farmers Market"
-                 onerror="this.parentElement.style.background='#ddd';this.remove()">
-          </div>
-        </div>
-
-        <!--
-        ┌──────────────────────────────────────────────────────┐
-        │  EVENT CARD 3 PHOTO                                  │
-        │  Currently: Unsplash restaurant/plated food photo   │
-        │  To change: replace src="..." with your photo URL   │
-        └──────────────────────────────────────────────────────┘
-        -->
-        <div class="eli" onclick="navigate('browse')">
-          <div class="eli-body">
-            <div class="eli-title">Mama Oliech Restaurant — Sunday Brunch Special</div>
-            <div class="eli-date">Sat, May 24 • 11:00 AM</div>
-            <div class="eli-loc">Hurlingham, Nairobi</div>
-            <div class="eli-price">Starts at KES 800</div>
-            <div class="eli-promo">PROMOTED
-              <div class="promo-tooltip"><span class="help-ico">?</span><div class="promo-tip-box">This is a paid promotion. EventsKenya shows promoted events to help you discover relevant experiences.</div></div>
-            </div>
-          </div>
-          <div class="eli-thumb">
-            <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=240&q=80&auto=format&fit=crop"
-                 alt="Mama Oliech Brunch"
-                 onerror="this.parentElement.style.background='#ddd';this.remove()">
-          </div>
-        </div>
-
-        <!--
-        ┌──────────────────────────────────────────────────────┐
-        │  EVENT CARD 4 PHOTO                                  │
-        │  Currently: Unsplash outdoor market photo            │
-        │  To change: replace src="..." with your photo URL   │
-        └──────────────────────────────────────────────────────┘
-        -->
-        <div class="eli" onclick="navigate('browse')">
-          <div class="eli-body">
-            <div class="eli-title">2026 Nairobi Summer Farmers and Makers Market</div>
-            <div class="eli-date">Fri, June 6 • 8:00 AM</div>
-            <div class="eli-loc">Ngong Road • Nairobi, Kenya</div>
-            <div class="eli-price">Free</div>
-          </div>
-          <div class="eli-thumb">
-            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=240&q=80&auto=format&fit=crop"
-                 alt="Nairobi Farmers and Makers Market"
-                 onerror="this.parentElement.style.background='#ddd';this.remove()">
-          </div>
-        </div>
-
+        <div class="eli" onclick="nav('browse')"><div class="eli-body"><div class="eli-title">Atlanta Food &amp; Wine Festival 2026</div><div class="eli-date">Sat, Jun 28 &middot; 12:00 PM</div><div class="eli-loc">Piedmont Park, Midtown Atlanta</div><div class="eli-price">From $45</div><div class="eli-promo">PROMOTED</div></div><div class="eli-thumb"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=240&q=80&auto=format&fit=crop" alt="" onerror="this.parentElement.style.background='#ddd';this.remove()"></div></div>
+        <div class="eli" onclick="nav('browse')"><div class="eli-body"><div class="eli-title">Ponce City Market Summer Sunday Market</div><div class="eli-date">Sun, Jun 22 &middot; 10:00 AM</div><div class="eli-loc">Ponce City Market, Atlanta, GA</div><div class="eli-price">Free</div></div><div class="eli-thumb"><img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=240&q=80&auto=format&fit=crop" alt="" onerror="this.parentElement.style.background='#ddd';this.remove()"></div></div>
+        <div class="eli" onclick="nav('browse')"><div class="eli-body"><div class="eli-title">Sweetwater Craft Beer Festival &mdash; Atlanta</div><div class="eli-date">Sat, Jul 19 &middot; 2:00 PM</div><div class="eli-loc">Atlantic Station, Atlanta, GA</div><div class="eli-price">From $25</div><div class="eli-promo">PROMOTED</div></div><div class="eli-thumb"><img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=240&q=80&auto=format&fit=crop" alt="" onerror="this.parentElement.style.background='#ddd';this.remove()"></div></div>
+        <div class="eli" onclick="nav('browse')"><div class="eli-body"><div class="eli-title">Atlanta Black Restaurant Week &mdash; Kickoff</div><div class="eli-date">Fri, Jul 11 &middot; 6:00 PM</div><div class="eli-loc">Underground Atlanta, Atlanta, GA</div><div class="eli-price">Free</div></div><div class="eli-thumb"><img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=240&q=80&auto=format&fit=crop" alt="" onerror="this.parentElement.style.background='#ddd';this.remove()"></div></div>
       </div>
-
-      <div class="still-looking">
-        <h2 class="sec-title">Still looking for the right event?</h2>
-        <p class="sec-sub">Explore all events in Nairobi and filter by date, category, and more to find the perfect fit.</p>
+      <div style="padding-top:28px;">
+        <h2 class="sec-title">Still looking?</h2>
+        <p class="sec-sub">Explore all events in Atlanta and filter by date, category, and more.</p>
         <div class="filter-chips">
-          <span class="chip" onclick="filterBrowse('Kenya')">Kenya Events</span>
-          <span class="chip" onclick="filterBrowse('Nairobi')">Nairobi Events</span>
-          <span class="chip" onclick="filterBrowse('Nairobi')">Things to do in Nairobi, Kenya</span>
-          <span class="chip" onclick="filterBrowse('Festival')">Nairobi festivals</span>
-          <span class="chip" onclick="filterBrowse('Food')">Nairobi Food &amp; Drink festivals</span>
+          <span class="chip" onclick="filterBrowse('Georgia')">Georgia Events</span>
+          <span class="chip" onclick="filterBrowse('Atlanta')">Atlanta Events</span>
+          <span class="chip" onclick="filterBrowse('Festival')">Atlanta Festivals</span>
+          <span class="chip" onclick="filterBrowse('Food')">Atlanta Food Events</span>
+          <span class="chip" onclick="filterBrowse('Free')">Free Events</span>
         </div>
       </div>
-
     </div>
-
     <div class="sidebar">
-      <div class="sidebar-box">
-        <div class="sb-label">Sales ended</div>
-        <div class="sb-sub">May 1–3</div>
-        <button class="sb-btn" onclick="navigate('browse')">Explore similar events</button>
+      <div class="sb-box">
+        <div class="sb-label">June 12&ndash;14, 2026</div>
+        <div class="sb-sub">Patterson Park, Atlanta GA</div>
+        <div class="sb-div"></div>
+        <div class="sb-info">&#128197; <span>Fri 1:00&ndash;5:00 PM<br>Sat 10:00 AM&ndash;5:00 PM<br>Sun 10:00 AM&ndash;5:00 PM</span></div>
+        <div class="sb-info" style="margin-top:6px;">&#127903; <span>Vendor spots available now</span></div>
+        <div class="sb-info" style="margin-top:6px;">&#128181; <span>From $65/day &middot; Chime payment</span></div>
+        <button class="sb-btn" onclick="openReg()">Apply as Vendor</button>
+        <button class="sb-btn out" onclick="openModal('shareMo')">Share Event</button>
       </div>
     </div>
   </div>
 
   <footer>
-    <div class="footer-top">
-      <div><div class="fc-title">Use EventsKenya</div><a class="fc-link" onclick="navigate('help')">How it Works</a><a class="fc-link" onclick="showToast('Opening Pricing…')">Pricing</a><a class="fc-link" onclick="showToast('Opening Event Blog…')">Event Blog</a></div>
-      <div><div class="fc-title">Plan Events</div><a class="fc-link" onclick="navigate('create')">Conference Management</a><a class="fc-link" onclick="navigate('create')">M-Pesa Ticketing</a><a class="fc-link" onclick="navigate('create')">Nonprofits &amp; Fundraisers</a><a class="fc-link" onclick="navigate('create')">Sell Tickets Online</a><a class="fc-link" onclick="navigate('create')">Online Event Registration</a><a class="fc-link" onclick="navigate('create')">Online RSVP</a><a class="fc-link" onclick="navigate('create')">Music Venues &amp; Promoters</a></div>
-      <div><div class="fc-title">Find Events</div><a class="fc-link" onclick="navigate('browse')">Browse Online Events</a><a class="fc-link" onclick="showToast('Redirecting to App Store…')">Get the EventsKenya App</a></div>
-      <div><div class="fc-title">Connect With Us</div><a class="fc-link" onclick="showToast('Opening report form…')">Report this event</a><a class="fc-link" onclick="navigate('help')">Help Center</a><a class="fc-link" onclick="showToast('Opening Terms…')">Terms</a><a class="fc-link" onclick="showToast('Opening Privacy Policy…')">Privacy</a><a class="fc-link" onclick="navigate('help')">Community Guidelines</a></div>
+    <div class="ft-top">
+      <div><div class="ft-title">EventHub</div><a class="ft-link" onclick="nav('help')">How it Works</a><a class="ft-link">Pricing</a><a class="ft-link">Event Blog</a></div>
+      <div><div class="ft-title">For Vendors</div><a class="ft-link" onclick="openReg()">Apply as Vendor</a><a class="ft-link">Booth Guidelines</a><a class="ft-link">Vendor FAQ</a></div>
+      <div><div class="ft-title">Find Events</div><a class="ft-link" onclick="nav('browse')">Browse Events</a><a class="ft-link" onclick="nav('tickets')">My Tickets</a></div>
+      <div><div class="ft-title">Connect</div><a class="ft-link" onclick="nav('help')">Help Center</a><a class="ft-link">Community Guidelines</a><a class="ft-link">Privacy Policy</a></div>
     </div>
-    <div class="footer-bottom">
-      <div class="fb-links"><span onclick="showToast('Managing cookies…')">Manage Cookie Preferences</span><span class="fb-sep">•</span><span onclick="showToast('Opening privacy settings…')">Do Not Sell or Share My Personal Information</span><span class="fb-sep">•</span><span onclick="showToast('Opening Privacy Policy…')">Privacy</span></div>
-      <div class="footer-brand"><span>EventsKenya</span><span class="pipe">|</span><span class="sub">TicketKE</span></div>
-      <div class="footer-copy">© 2026 EventsKenya. All rights reserved.</div>
-    </div>
+    <div class="ft-bot"><div class="ft-brand">EventHub<span class="pipe">|</span><span class="sub">Atlanta Events</span></div><div class="ft-copy">&copy; 2026 EventHub. All rights reserved.</div></div>
   </footer>
-  <div class="mob-bar"><div><div class="mb-label">Sales ended</div><div class="mb-date">May 1–3</div></div><button class="mb-btn" onclick="navigate('browse')">Explore similar events</button></div>
+  <div class="mob-bar"><div class="mob-bar-text"><div class="t">Vendor spots open</div><div class="s">Jun 12&ndash;14, 2026</div></div><button class="mob-bar-btn" onclick="openReg()">Apply Now</button></div>
 </div>
 
-<!-- ================================================================ BROWSE ================================================================ -->
+<!-- BROWSE PAGE -->
 <div class="page" id="page-browse">
-  <div class="browse-hero"><div class="browse-hero-inner"><h1>Find Events in Kenya 🇰🇪</h1><p style="opacity:.8;margin-bottom:20px;">Concerts, markets, sports, food, festivals &amp; more</p><div class="browse-search-bar"><input type="text" id="browseSearchInput" placeholder="Search events, artists, venues…" onkeydown="if(event.key==='Enter')applyBrowseSearch()"><button onclick="applyBrowseSearch()">Search</button></div></div></div>
+  <div class="browse-hero"><div class="browse-hero-inner"><h1>Find Events in Atlanta &#127829;</h1><p style="opacity:.8;margin-bottom:18px;">Markets, concerts, food festivals, sports &amp; more</p><div class="browse-bar"><input type="text" id="browseQ" placeholder="Search events, venues&#8230;" onkeydown="if(event.key==='Enter')browseSearch()"><button onclick="browseSearch()">Search</button></div></div></div>
   <div class="browse-content">
-    <div class="browse-filters">
-      <span class="bfilter active" onclick="setFilter(this,'All')">All</span>
-      <span class="bfilter" onclick="setFilter(this,'Food')">🍽 Food &amp; Drink</span>
-      <span class="bfilter" onclick="setFilter(this,'Music')">🎵 Music</span>
-      <span class="bfilter" onclick="setFilter(this,'Sports')">⚽ Sports</span>
-      <span class="bfilter" onclick="setFilter(this,'Festival')">🎪 Festivals</span>
-      <span class="bfilter" onclick="setFilter(this,'Business')">💼 Business</span>
-      <span class="bfilter" onclick="setFilter(this,'Free')">🎁 Free</span>
-    </div>
+    <div class="browse-filters"><span class="bfilter active" onclick="setFilter(this,'All')">All</span><span class="bfilter" onclick="setFilter(this,'Food')">&#127869; Food &amp; Drink</span><span class="bfilter" onclick="setFilter(this,'Music')">&#127925; Music</span><span class="bfilter" onclick="setFilter(this,'Sports')">&#9917; Sports</span><span class="bfilter" onclick="setFilter(this,'Festival')">&#127914; Festivals</span><span class="bfilter" onclick="setFilter(this,'Business')">&#128188; Business</span><span class="bfilter" onclick="setFilter(this,'Free')">&#127873; Free</span></div>
     <div class="browse-grid" id="browseGrid"></div>
-    <p id="noResults" style="display:none;text-align:center;color:#6F7287;padding:40px;font-size:16px;">No events found. Try a different search or category.</p>
+    <p id="noResults" style="display:none;text-align:center;color:var(--muted);padding:44px;font-size:15px;">No events found. Try a different search or category.</p>
   </div>
-  <footer><div class="footer-top"><div><div class="fc-title">Use EventsKenya</div><a class="fc-link" onclick="navigate('help')">How it Works</a><a class="fc-link">Pricing</a></div><div><div class="fc-title">Plan Events</div><a class="fc-link" onclick="navigate('create')">Create an Event</a><a class="fc-link" onclick="navigate('create')">Sell Tickets</a></div><div><div class="fc-title">Find Events</div><a class="fc-link" onclick="navigate('browse')">Browse Events</a></div><div><div class="fc-title">Connect</div><a class="fc-link" onclick="navigate('help')">Help Center</a><a class="fc-link">Privacy</a></div></div><div class="footer-bottom"><div class="footer-brand"><span>EventsKenya</span><span class="pipe">|</span><span class="sub">TicketKE</span></div><div class="footer-copy">© 2026 EventsKenya. All rights reserved.</div></div></footer>
+  <footer><div class="ft-top"><div><div class="ft-title">EventHub</div><a class="ft-link" onclick="nav('help')">How it Works</a></div><div><div class="ft-title">For Vendors</div><a class="ft-link" onclick="openReg()">Apply as Vendor</a></div><div><div class="ft-title">Find Events</div><a class="ft-link" onclick="nav('browse')">Browse Events</a></div><div><div class="ft-title">Connect</div><a class="ft-link" onclick="nav('help')">Help Center</a></div></div><div class="ft-bot"><div class="ft-brand">EventHub</div><div class="ft-copy">&copy; 2026 EventHub. All rights reserved.</div></div></footer>
 </div>
 
-<!-- ================================================================ CREATE ================================================================ -->
-<div class="page" id="page-create">
-  <div class="create-page">
-    <h1>Create Your Event</h1><p class="sub">List your event on EventsKenya and reach thousands of Kenyans. Free to list!</p>
-    <div class="form-group"><label>Event Title *</label><input type="text" placeholder="e.g. 2026 Nairobi Jazz Night"></div>
-    <div class="form-group"><label>Category *</label><select><option>Select a category</option><option>Food &amp; Drink</option><option>Music &amp; Concerts</option><option>Sports &amp; Fitness</option><option>Arts &amp; Culture</option><option>Business &amp; Networking</option><option>Festivals &amp; Fairs</option><option>Outdoor &amp; Adventure</option><option>Education &amp; Training</option></select></div>
-    <div class="form-group"><label>Event Description *</label><textarea placeholder="Tell attendees what to expect…"></textarea></div>
-    <div class="form-row"><div class="form-group"><label>Start Date &amp; Time *</label><input type="datetime-local"></div><div class="form-group"><label>End Date &amp; Time *</label><input type="datetime-local"></div></div>
-    <div class="form-group"><label>Venue / Location *</label><input type="text" placeholder="e.g. Ngong Racecourse, Nairobi"></div>
-    <div class="form-group"><label>Cover Photo URL</label><input type="url" placeholder="https://… paste a photo link here"></div>
-    <div class="ticket-section"><h3>Ticket Type</h3>
-      <div class="ticket-type selected" onclick="selectTicket(this)"><input type="radio" name="ticket" checked><div><strong>Free Event</strong><br><small style="color:#6F7287">No charge for attendees</small></div></div>
-      <div class="ticket-type" onclick="selectTicket(this)"><input type="radio" name="ticket"><div><strong>Paid Tickets</strong><br><small style="color:#6F7287">Set a price + collect M-Pesa payments</small></div></div>
-      <div class="ticket-type" onclick="selectTicket(this)"><input type="radio" name="ticket"><div><strong>Donation</strong><br><small style="color:#6F7287">Attendees donate any amount</small></div></div>
-    </div>
-    <div class="form-group"><label>Organiser Name *</label><input type="text" placeholder="Your name or organisation"></div>
-    <div class="form-group"><label>Contact Email *</label><input type="email" placeholder="you@example.com"></div>
-    <div class="form-group"><label>M-Pesa Till / Paybill (for paid events)</label><input type="text" placeholder="e.g. 625362"></div>
-    <button class="submit-btn" onclick="submitEvent()">Publish Event →</button>
-  </div>
-</div>
-
-<!-- ================================================================ TICKETS ================================================================ -->
+<!-- TICKETS PAGE -->
 <div class="page" id="page-tickets">
   <div class="tickets-page">
     <h1>My Tickets</h1>
-    <!--
-    TICKET CARD PHOTOS — replace each src with your event's photo
-    -->
-    <div class="ticket-card">
-      <div class="tc-img"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=200&q=80&auto=format&fit=crop" alt="Gala"></div>
-      <div class="tc-body"><div class="tc-title">Nairobi Food &amp; Wine Gala 2026</div><div class="tc-date">Sat, May 31, 2026 • 7:00 PM</div><div class="tc-loc">📍 Radisson Blu Hotel, Upper Hill, Nairobi</div><div class="tc-status upcoming">● Upcoming</div></div>
-      <div class="tc-right"><div class="tc-price">KES 2,500</div><button class="view-ticket-btn" onclick="showToast('Downloading your ticket PDF…')">View Ticket</button></div>
-    </div>
-    <div class="ticket-card">
-      <div class="tc-img"><img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=200&q=80&auto=format&fit=crop" alt="Market"></div>
-      <div class="tc-body"><div class="tc-title">2026 Nairobi Summer Farmers Market</div><div class="tc-date">Fri, May 1 – Sun, May 3, 2026</div><div class="tc-loc">📍 Ngong Racecourse, Nairobi</div><div class="tc-status ended">● Event Ended</div></div>
-      <div class="tc-right"><div class="tc-price">Free</div><button class="view-ticket-btn" onclick="showToast('Showing ticket confirmation…')">View Ticket</button></div>
-    </div>
-    <div style="text-align:center;margin-top:32px;"><p style="color:#6F7287;font-size:15px;margin-bottom:16px;">Can't find your ticket? Sign in to see all your bookings.</p><button style="background:var(--orange);color:#fff;border:none;border-radius:4px;padding:12px 28px;font-size:15px;font-weight:800;cursor:pointer;" onclick="openModal('signinModal')">Sign In to view all tickets</button></div>
+    <div class="tc"><div class="tc-img"><img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200&q=80&auto=format&fit=crop" alt=""></div><div class="tc-body"><div class="tc-title">2026 Atlanta Summer Farmers Market</div><div class="tc-date">Fri Jun 12 &ndash; Sun Jun 14, 2026</div><div class="tc-loc">&#128205; Patterson Park, Atlanta, GA 30314</div><div class="tc-status upcoming">&#9679; Upcoming</div></div><div class="tc-right"><div class="tc-price">Vendor Pass</div><button class="view-tc" onclick="showToast('Downloading confirmation&#8230;')">View</button></div></div>
+    <div class="tc"><div class="tc-img"><img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=200&q=80&auto=format&fit=crop" alt=""></div><div class="tc-body"><div class="tc-title">Atlanta Food &amp; Wine Festival 2026</div><div class="tc-date">Sat, Jun 28, 2026 &middot; 12:00 PM</div><div class="tc-loc">&#128205; Piedmont Park, Midtown Atlanta</div><div class="tc-status upcoming">&#9679; Upcoming</div></div><div class="tc-right"><div class="tc-price">$45.00</div><button class="view-tc" onclick="showToast('Downloading ticket PDF&#8230;')">View</button></div></div>
+    <div style="text-align:center;margin-top:28px;"><p style="color:var(--muted);font-size:14px;margin-bottom:14px;">Can&rsquo;t find your ticket? Sign in to see all bookings.</p><button style="background:var(--green);color:#fff;border:none;border-radius:50px;padding:11px 26px;font-size:14px;font-weight:700;cursor:pointer;" onclick="openModal('signinMo')">Sign In to View All Tickets</button></div>
   </div>
 </div>
 
-<!-- ================================================================ HELP ================================================================ -->
+<!-- HELP PAGE -->
 <div class="page" id="page-help">
   <div class="help-page">
     <h1>Help Center</h1><p class="sub">How can we help you today?</p>
-    <div class="help-search"><input type="text" placeholder="Search for answers…"><button onclick="showToast('Searching help articles…')">Search</button></div>
+    <div class="help-search"><input type="text" placeholder="Search for answers&#8230;"><button onclick="showToast('Searching&#8230;')">Search</button></div>
     <div class="help-cats">
-      <div class="help-cat" onclick="showToast('Opening: Buying Tickets')"><div class="hc-icon">🎟️</div><h3>Buying Tickets</h3><p>Registration, M-Pesa payment, confirmations</p></div>
-      <div class="help-cat" onclick="showToast('Opening: Creating Events')"><div class="hc-icon">📅</div><h3>Creating Events</h3><p>Set up your event, manage attendees</p></div>
-      <div class="help-cat" onclick="showToast('Opening: Managing Tickets')"><div class="hc-icon">📲</div><h3>Managing Tickets</h3><p>Transfer, refund, or cancel tickets</p></div>
-      <div class="help-cat" onclick="showToast('Opening: Payments')"><div class="hc-icon">💳</div><h3>Payments &amp; Payouts</h3><p>M-Pesa, invoices, payout schedule</p></div>
-      <div class="help-cat" onclick="showToast('Opening: Account Settings')"><div class="hc-icon">⚙️</div><h3>Account &amp; Settings</h3><p>Profile, notifications, privacy</p></div>
-      <div class="help-cat" onclick="showToast('Opening: Trust & Safety')"><div class="hc-icon">🛡️</div><h3>Trust &amp; Safety</h3><p>Report fraud, event policies</p></div>
+      <div class="help-cat" onclick="showToast('Vendor Applications')"><div class="hi">&#128966;</div><h3>Vendor Applications</h3><p>Apply, eligibility, acceptance</p></div>
+      <div class="help-cat" onclick="showToast('Payments & Booths')"><div class="hi">&#128179;</div><h3>Payments &amp; Booths</h3><p>Chime payment, booth fees</p></div>
+      <div class="help-cat" onclick="showToast('Event Day Info')"><div class="hi">&#128197;</div><h3>Event Day Info</h3><p>Setup times, location, parking</p></div>
+      <div class="help-cat" onclick="showToast('Cancellations')"><div class="hi">&#128184;</div><h3>Cancellations &amp; Refunds</h3><p>Policies, rain cancellations</p></div>
+      <div class="help-cat" onclick="showToast('Accessibility')"><div class="hi">&#9855;</div><h3>Accessibility</h3><p>Ramp access, accommodations</p></div>
+      <div class="help-cat"><div class="hi">&#128737;&#65039;</div><h3>Rules &amp; Safety</h3><p>Health codes, local regulations</p></div>
     </div>
-    <h2 class="sec-title" style="margin-bottom:16px;">Frequently Asked Questions</h2>
+    <h2 class="sec-title" style="margin-bottom:14px;">Frequently Asked Questions</h2>
     <div class="faq-list">
-      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I buy a ticket? <span class="faq-arrow">▼</span></div><div class="faq-a">Find the event you want, click on it, then click "Get Tickets." You'll pay via M-Pesa STK Push — a prompt will be sent to your phone. Confirm payment and your ticket will be emailed instantly.</div></div>
-      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">Can I get a refund? <span class="faq-arrow">▼</span></div><div class="faq-a">Refund policies are set by event organizers. Check the event page for the refund policy. If the event was cancelled, you will receive an automatic M-Pesa refund within 5–7 business days.</div></div>
-      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I list a free event? <span class="faq-arrow">▼</span></div><div class="faq-a">Listing a free event on EventsKenya is 100% free. Click "Create Events" in the navigation, fill out the form, and publish. Your event goes live immediately.</div></div>
-      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What payment methods are accepted? <span class="faq-arrow">▼</span></div><div class="faq-a">We accept M-Pesa (Safaricom), Airtel Money, and major debit/credit cards. M-Pesa is the most popular and fastest payment method on our platform.</div></div>
-      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do organizers receive payouts? <span class="faq-arrow">▼</span></div><div class="faq-a">Organizers receive payouts via M-Pesa or bank transfer within 3 business days after the event ends. Track your earnings in your organizer dashboard.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I apply as a vendor? <span class="faq-arr">&#9660;</span></div><div class="faq-a">Click &ldquo;Apply as Vendor,&rdquo; fill in your details, and submit. Your application is reviewed instantly. Once approved, send payment via Chime to <span class="chime-tag-val">Loading&#8230;</span> and upload your screenshot.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What are the booth prices? <span class="faq-arr">&#9660;</span></div><div class="faq-a">Service/Product: $65/day (10&times;10), $70/day (10&times;20), $90/day (Food Truck). Food Vendors: $73/day (10&times;10), $78/day (10&times;20), $90/day (Food Truck). All prices are per day.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">How do I pay for my booth? <span class="faq-arr">&#9660;</span></div><div class="faq-a">Payment is Chime only. Send to <span class="chime-tag-val">Loading&#8230;</span>, upload a screenshot of successful payment in the portal. Payment due within 72 hours of acceptance.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What is the cancellation/refund policy? <span class="faq-arr">&#9660;</span></div><div class="faq-a">Vendor fees are non-refundable once payment is confirmed. If the event is canceled due to rain, a decision is made by 7 AM and you&rsquo;ll be notified by text.</div></div>
+      <div class="faq-item" onclick="toggleFaq(this)"><div class="faq-q">What time can vendors set up? <span class="faq-arr">&#9660;</span></div><div class="faq-a">2 hours before the event opens. Tables and chairs are provided. You&rsquo;re responsible for signage and keeping your booth clean throughout the event.</div></div>
     </div>
   </div>
 </div>
 
-<!-- ================================================================ MODALS ================================================================ -->
-<div class="modal-overlay" id="signinModal" onclick="closeModalOnOverlay(event,'signinModal')">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('signinModal')">✕</button>
-    <div class="modal-title">Sign in to EventsKenya</div>
-    <div class="signin-form">
-      <div class="form-group"><label>Email address</label><input type="email" id="signinEmail" placeholder="you@example.com"></div>
-      <div class="form-group"><label>Password</label><input type="password" id="signinPass" placeholder="••••••••"></div>
-      <button class="signin-btn" onclick="doSignIn()">Sign in</button>
-      <div class="signin-divider">or</div>
-      <button class="google-btn" onclick="showToast('Signing in with Google…')"><svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continue with Google</button>
-      <div class="signin-divider">or</div>
-      <button class="google-btn" onclick="showToast('Signing in with phone number…')">📱 Continue with Phone Number</button>
-      <div class="signup-link">Don't have an account? <span onclick="showToast('Opening sign-up form…')">Sign up</span></div>
+<!-- VENDOR REGISTRATION MODAL -->
+<div class="mo" id="regMo" onclick="closeOnBg(event,'regMo')">
+  <div class="reg-box">
+    <div class="reg-hdr">
+      <h2 id="rhdTitle">Vendor Application Form</h2>
+      <p id="rhdSub">2026 Atlanta Summer Farmers Market &middot; June 12&ndash;14, 2026</p>
+      <button class="reg-close" onclick="closeModal('regMo')">&#10005;</button>
+    </div>
+    <div class="step-bar">
+      <div class="si active" id="si1"><div class="sn">1</div>Application</div>
+      <div class="ss" id="ss1"></div>
+      <div class="si" id="si2"><div class="sn">2</div>Review</div>
+      <div class="ss" id="ss2"></div>
+      <div class="si" id="si3"><div class="sn">3</div>Payment</div>
+      <div class="ss" id="ss3"></div>
+      <div class="si" id="si4"><div class="sn">4</div>Done</div>
+    </div>
+    <div class="mb">
+
+      <!-- STEP 1 -->
+      <div id="s1">
+        <div class="fsec">
+          <div class="fsec-title">Event Information</div>
+          <div style="background:#f0faf5;border:1px solid #86efac;border-radius:10px;padding:11px 13px;font-size:12px;color:#14532d;line-height:1.7;">
+            <strong>Dates:</strong> June 12&ndash;14, 2026 &nbsp;&middot;&nbsp; <strong>Times:</strong> Fri 1&ndash;5 PM &middot; Sat &amp; Sun 10 AM&ndash;5 PM<br>
+            <strong>Location:</strong> Patterson Park, 770 Deshawn Ave SW, Atlanta, GA 30314
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-title">Your Information</div>
+          <div class="fg"><label class="lbl">Business / Personal Name <span class="req">*</span></label><input type="text" id="f_name" placeholder="Your business or full name"></div>
+          <div class="fg"><label class="lbl">Phone Number <span class="req">*</span></label><input type="tel" id="f_phone" placeholder="(404) 555-0123"></div>
+          <div class="fg"><label class="lbl">Email Address <span class="req">*</span></label><input type="email" id="f_email" placeholder="you@example.com"></div>
+          <div class="fg"><label class="lbl">Description of Items You Sell <span class="req">*</span></label><textarea id="f_items" placeholder="Describe your products or services&#8230;"></textarea></div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-title">Vendor Category &amp; Booth</div>
+          <div class="fg">
+            <label class="lbl">Vendor Category <span class="req">*</span></label>
+            <div class="opt-group">
+              <label class="ropt" id="lcat_s"><input type="radio" name="vcat" value="Service/Product Vendor" onchange="onCatChange(this)">&#128717; Service / Product Vendor</label>
+              <label class="ropt" id="lcat_f"><input type="radio" name="vcat" value="Food Vendor" onchange="onCatChange(this)">&#127869; Food Vendor (Tent / Booth / Truck)</label>
+            </div>
+          </div>
+          <div class="fg">
+            <label class="lbl">Booth / Space Size <span class="req">*</span></label>
+            <div class="size-grid">
+              <label class="sz-opt" id="lsz_10x10"><input type="radio" name="sz" value="10x10" onchange="onSizeChange(this)"><div class="sz-label">10&times;10</div><div class="sz-price" id="px_10x10">&mdash;</div><div class="sz-note">per day</div></label>
+              <label class="sz-opt" id="lsz_10x20"><input type="radio" name="sz" value="10x20" onchange="onSizeChange(this)"><div class="sz-label">10&times;20</div><div class="sz-price" id="px_10x20">&mdash;</div><div class="sz-note">per day</div></label>
+              <label class="sz-opt" id="lsz_truck"><input type="radio" name="sz" value="Food Truck" onchange="onSizeChange(this)"><div class="sz-label">Food Truck</div><div class="sz-price" id="px_truck">&mdash;</div><div class="sz-note">per day</div></label>
+            </div>
+            <div id="sizeHint">Select your vendor category first to see pricing.</div>
+          </div>
+          <div class="fg">
+            <label class="lbl">Days to Participate <span class="req">*</span></label>
+            <div class="opt-group grid2">
+              <label class="copt" id="lcb_fri"><input type="checkbox" id="cb_fri" value="June 12 (Fri)" onchange="onDayChange(this)">June 12 (Fri)</label>
+              <label class="copt" id="lcb_sat"><input type="checkbox" id="cb_sat" value="June 13 (Sat)" onchange="onDayChange(this)">June 13 (Sat)</label>
+              <label class="copt" id="lcb_sun"><input type="checkbox" id="cb_sun" value="June 14 (Sun)" onchange="onDayChange(this)">June 14 (Sun)</label>
+              <label class="copt" id="lcb_all"><input type="checkbox" id="cb_all" value="All Days" onchange="onAllDaysChange(this)">All Days (3)</label>
+            </div>
+          </div>
+          <div class="fg">
+            <label class="lbl">New or Returning Vendor? <span class="req">*</span></label>
+            <div class="opt-group">
+              <label class="ropt" id="lvt_new"><input type="radio" name="vtype" value="New vendor" onchange="onRadioChange(this)">New Vendor</label>
+              <label class="ropt" id="lvt_ret"><input type="radio" name="vtype" value="Returning vendor" onchange="onRadioChange(this)">Returning Vendor</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-title">Payment Method</div>
+          <div class="fg">
+            <label class="lbl">How Will You Pay? <span class="req">*</span></label>
+            <label class="ropt sel" style="cursor:default;"><input type="radio" name="pay" checked> &#128154; Chime (only accepted method)</label>
+            <div class="chime-box" style="margin-top:9px;">
+              <div class="chime-box-lbl">Send payment to:</div>
+              <div class="chime-static" id="chimeTagDisplay"><span class="chime-loading">Loading tag&#8230;</span></div>
+              <div class="chime-note">Due within 72 hours of acceptance. Upload your payment screenshot after submitting this form.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-title">Accessibility &amp; Setup</div>
+          <div class="fg">
+            <label class="lbl">Do You Require Special Accommodations? <span class="req">*</span></label>
+            <div class="opt-group">
+              <label class="ropt" id="lacc_y"><input type="radio" name="acc" value="Yes" onchange="onRadioChange(this)"> Yes (wheelchair, ramp access, extra unloading time, etc.)</label>
+              <label class="ropt" id="lacc_n"><input type="radio" name="acc" value="No" onchange="onRadioChange(this)"> No special accommodations needed</label>
+            </div>
+          </div>
+          <div class="fg">
+            <label class="lbl">Do You Need Help with Unloading / Setup? <span class="req">*</span></label>
+            <div class="opt-group">
+              <label class="ropt" id="lsu_y"><input type="radio" name="sup" value="Yes" onchange="onRadioChange(this)"> Yes, I need assistance</label>
+              <label class="ropt" id="lsu_n"><input type="radio" name="sup" value="No" onchange="onRadioChange(this)"> No, I can manage independently</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="fsec">
+          <div class="fsec-title">Terms &amp; Agreement</div>
+          <div class="terms-box">By submitting this application you agree that:<ul><li>Booth fees are non-refundable once payment is confirmed.</li><li>Payment via Chime is due within 72 hours of acceptance.</li><li>Vendors who cancel or don&rsquo;t show will not be refunded and may not be considered for future events.</li><li>If all dates are canceled due to rain, booth fees are non-refundable. Decision by 7 AM via text.</li><li>Vendors are responsible for setup, signage, and booth cleanliness.</li><li>The event team may adjust booth placement to optimize the layout.</li><li>All vendors must follow local health, safety, and accessibility regulations.</li></ul></div>
+          <div class="fg">
+            <label class="lbl">Do You Agree to All Terms? <span class="req">*</span></label>
+            <div class="opt-group">
+              <label class="ropt" id="ltr_y"><input type="radio" name="trm" value="Yes" onchange="onRadioChange(this)"> Yes, I agree to all terms and conditions</label>
+              <label class="ropt" id="ltr_n"><input type="radio" name="trm" value="No" onchange="onRadioChange(this)"> No, I do not agree</label>
+            </div>
+          </div>
+          <div class="fg">
+            <label class="lbl">Final Agreement <span class="req">*</span></label>
+            <div class="opt-group">
+              <label class="ropt" id="lag_y"><input type="radio" name="agr" value="I agree" onchange="onRadioChange(this)"> I agree &mdash; all information I&rsquo;ve entered is accurate</label>
+              <label class="ropt" id="lag_n"><input type="radio" name="agr" value="I disagree" onchange="onRadioChange(this)"> I disagree</label>
+            </div>
+          </div>
+        </div>
+
+        <button class="act-submit" id="btn1" onclick="goToApproval()">Continue to Review &rarr;</button>
+        <div class="form-note">Your email is used as your unique application identifier in our system.</div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div id="s2" style="display:none;">
+        <div class="apr-loading" id="aprLoad">
+          <div class="apr-spinner"></div>
+          <div class="apr-title" id="aprTitle">Reviewing your application&#8230;</div>
+          <div class="apr-sub" id="aprSub">Please wait while we check your details</div>
+          <div class="dots"><span></span><span></span><span></span></div>
+        </div>
+        <div class="apr-success" id="aprOK" style="display:none;">
+          <div class="apr-icon"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+          <div class="apr-badge">Application Approved!</div>
+          <div class="apr-name" id="aprName"></div>
+          <p class="apr-msg">Your vendor application has been approved. Please proceed to complete your Chime payment to secure your booth.</p>
+          <div class="apr-chips" id="aprChips"></div>
+          <button class="act-submit" style="max-width:300px;margin:22px auto 0;" onclick="showPayStep()">Proceed to Payment &rarr;</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div id="s3" style="display:none;">
+        <div class="amt-display">
+          <div class="amt-lbl">Total Amount Due</div>
+          <div class="amt-val" id="amtVal">$0.00</div>
+          <div class="amt-brk" id="amtBrk"></div>
+        </div>
+        <div class="pay-instructions">
+          <h4>&#128242; How to Pay via Chime</h4>
+          <div class="pay-row"><div class="pay-num">1</div><div>Open your Chime app and tap <strong>Pay Anyone</strong></div></div>
+          <div class="pay-row"><div class="pay-num">2</div><div>Search for the Chime tag below and send the exact total amount</div></div>
+          <div class="chime-big"><span id="chimeTagStep3">Loading&#8230;</span> <button class="copy-btn" id="copyBtn" onclick="copyChime()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span id="copyTxt">Copy</span></button></div>
+          <div class="pay-row"><div class="pay-num">3</div><div>In the memo write your <strong>business name</strong> and <strong>event dates</strong></div></div>
+          <div class="pay-row"><div class="pay-num">4</div><div>Take a <strong>screenshot</strong> of the successful payment screen</div></div>
+          <div class="pay-row"><div class="pay-num">5</div><div>Upload the screenshot and enter your Chime tag below</div></div>
+        </div>
+        <div class="fg">
+          <label class="lbl">Upload Payment Screenshot <span class="req">*</span></label>
+          <div class="upload-area">
+            <input type="file" id="fileInput" accept="image/*" onchange="onFileChange(this)">
+            <div class="upload-icon">&#128248;</div>
+            <div class="upload-lbl">Tap to upload screenshot</div>
+            <div class="upload-sub">PNG, JPG or WEBP &middot; Max 10 MB</div>
+            <div class="upload-preview" id="filePrev"><img id="prevImg" src="" alt=""></div>
+          </div>
+          <div class="upload-fname" id="fname"></div>
+        </div>
+        <div class="fg"><label class="lbl">Your Chime Tag / Name <span class="req">*</span></label><input type="text" id="f_chime_tag" placeholder="e.g. $YourName-123 or your Chime display name"></div>
+        <button class="act-submit" id="btn3" onclick="submitAll()">Submit Payment Proof &#10003;</button>
+        <button class="act-back" onclick="goBackToForm()">&larr; Go back to edit application</button>
+      </div>
+
+      <!-- STEP 4 -->
+      <div id="s4" style="display:none;">
+        <div class="succ-inner">
+          <div class="succ-icon">&#9989;</div>
+          <h3>Application &amp; Payment Submitted!</h3>
+          <p>Thank you! We&rsquo;ve received your vendor application and payment proof. We&rsquo;ll review and confirm your spot via email within 3&ndash;5 business days.</p>
+          <div class="ref-code" id="refCode"></div>
+          <p style="font-size:11px;color:var(--dim);margin-top:8px;">Keep your Chime payment screenshot for your records.</p>
+          <button class="act-submit" style="margin-top:20px;" onclick="closeModal('regMo');resetForm()">Close</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="shareModal" onclick="closeModalOnOverlay(event,'shareModal')">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal('shareModal')">✕</button>
-    <div class="modal-title">Share this event</div>
-    <div class="share-url-box"><input type="text" id="shareUrl" value="https://eventskenya.co.ke/e/2026-nairobi-summer-farmers-market" readonly><button onclick="copyShareUrl()">Copy</button></div>
-    <div class="share-options">
-      <div class="share-opt" onclick="shareVia('WhatsApp')"><div class="sicon">💬</div>WhatsApp</div>
-      <div class="share-opt" onclick="shareVia('Twitter')"><div class="sicon">🐦</div>Twitter/X</div>
-      <div class="share-opt" onclick="shareVia('Facebook')"><div class="sicon">📘</div>Facebook</div>
-      <div class="share-opt" onclick="shareVia('Email')"><div class="sicon">📧</div>Email</div>
-      <div class="share-opt" onclick="shareVia('SMS')"><div class="sicon">📱</div>SMS</div>
+<!-- SIGN IN MODAL -->
+<div class="mo" id="signinMo" onclick="closeOnBg(event,'signinMo')">
+  <div class="sm-box">
+    <button class="sm-close" onclick="closeModal('signinMo')">&#10005;</button>
+    <div class="sm-title">Sign in to EventHub</div>
+    <div class="sin-fg"><label>Email address</label><input type="email" id="sinEmail" placeholder="you@example.com"></div>
+    <div class="sin-fg"><label>Password</label><input type="password" id="sinPass" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"></div>
+    <button class="sin-btn" onclick="doSignIn()">Sign in</button>
+    <div class="sin-div">or</div>
+    <button class="g-btn" onclick="showToast('Signing in with Google&#8230;')"><svg width="17" height="17" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Continue with Google</button>
+    <div class="su-link">Don&rsquo;t have an account? <span onclick="showToast('Opening sign-up&#8230;')">Sign up</span></div>
+  </div>
+</div>
+
+<!-- SHARE MODAL -->
+<div class="mo" id="shareMo" onclick="closeOnBg(event,'shareMo')">
+  <div class="sm-box">
+    <button class="sm-close" onclick="closeModal('shareMo')">&#10005;</button>
+    <div class="sm-title">Share This Event</div>
+    <div class="share-url-box"><input type="text" id="shareUrl" value="https://eventhub.us/e/2026-atlanta-summer-farmers-market" readonly><button onclick="copyUrl()">Copy</button></div>
+    <div class="share-opts">
+      <div class="share-opt" onclick="shareVia('WhatsApp')"><div class="si-icon">&#128172;</div>WhatsApp</div>
+      <div class="share-opt" onclick="shareVia('Twitter')"><div class="si-icon">&#128038;</div>Twitter</div>
+      <div class="share-opt" onclick="shareVia('Facebook')"><div class="si-icon">&#128218;</div>Facebook</div>
+      <div class="share-opt" onclick="shareVia('Email')"><div class="si-icon">&#128231;</div>Email</div>
+      <div class="share-opt" onclick="shareVia('SMS')"><div class="si-icon">&#128242;</div>SMS</div>
     </div>
   </div>
 </div>
 
 <script>
-// ── Navigation ──
-function navigate(page){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+page).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});if(page==='browse')renderBrowseGrid(allEvents,'');}
+// ═══════════════════════════════════════════════════════════════
+//  FIREBASE CONFIG
+// ═══════════════════════════════════════════════════════════════
+const FB = {
+  host: 'https://aviabustout-default-rtdb.firebaseio.com',
+  auth: 'MqfMzEhe0pU9U7vuKXq4Osw2tgj95IiDDnfaTjnP',
+  path: '/vendor_applications/'
+};
 
-// ── Toast ──
-let toastTimer;
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),2800);}
+// ── Live Chime tag — single source of truth ──────────────────
+let CHIME_TAG = '';   // populated by loadChimeTag()
 
-// ── Modals ──
-function openModal(id){document.getElementById(id).classList.add('open');}
-function closeModal(id){document.getElementById(id).classList.remove('open');}
-function closeModalOnOverlay(e,id){if(e.target.id===id)closeModal(id);}
+async function loadChimeTag() {
+  try {
+    const r   = await fetch(`${FB.host}/config/chime_tag.json?auth=${FB.auth}`);
+    if (!r.ok) return;
+    const val = await r.json();
+    if (val && typeof val === 'string' && val.trim().length > 0) {
+      CHIME_TAG = val.trim();
+      updateChimeTagUI();
+    }
+  } catch(e) {
+    console.warn('Could not fetch Chime tag:', e);
+  }
+}
 
-// ── Mobile menu ──
-function openMobileMenu(){document.getElementById('mobileMenu').classList.add('open');}
-function closeMobileMenu(){document.getElementById('mobileMenu').classList.remove('open');}
+function updateChimeTagUI() {
+  // Named elements
+  const ids = ['chimeTagAbout', 'chimeTagStep3'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = CHIME_TAG;
+  });
+  // Step-1 chime-static box
+  const disp = document.getElementById('chimeTagDisplay');
+  if (disp) disp.textContent = CHIME_TAG;
+  // FAQ spans
+  document.querySelectorAll('.chime-tag-val').forEach(el => {
+    el.textContent = CHIME_TAG;
+  });
+}
 
-// ── Search ──
-function doSearch(){const q=document.getElementById('navSearchInput').value.trim()||document.getElementById('mmSearchInput').value.trim()||'';navigate('browse');setTimeout(()=>{document.getElementById('browseSearchInput').value=q;applyBrowseSearch();},100);}
-function applyBrowseSearch(){const q=document.getElementById('browseSearchInput').value.toLowerCase();renderBrowseGrid(allEvents.filter(e=>e.title.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||e.tag.toLowerCase().includes(q)),q);}
-function filterBrowse(cat){navigate('browse');setTimeout(()=>{document.getElementById('browseSearchInput').value=cat;applyBrowseSearch();},100);}
+// ── Firebase write helper ─────────────────────────────────────
+function emailKey(e) {
+  return e.toLowerCase().replace(/\./g,'_').replace(/@/g,'-at-').replace(/[^a-z0-9_\-]/g,'');
+}
 
-// ── Browse filters ──
-function setFilter(el,cat){document.querySelectorAll('.bfilter').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderBrowseGrid(cat==='All'?allEvents:allEvents.filter(e=>e.tag===cat||(cat==='Free'&&e.price==='Free')),'');}
+async function fbPut(payload) {
+  const key = emailKey(payload.email);
+  const url = `${FB.host}${FB.path}${key}.json?auth=${FB.auth}`;
+  const r = await fetch(url, {
+    method:'PUT',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  });
+  if (!r.ok) throw new Error('Firebase error '+r.status);
+  return key;
+}
 
-// ── Event data (each entry has a real Unsplash photo) ──
-/*
-  HOW TO ADD YOUR OWN PHOTOS TO BROWSE CARDS:
-  Each event object below has an "img" field.
-  Replace the Unsplash URL with your own photo URL or local path.
-  e.g.  img: 'images/jazz-night.jpg'
-*/
+// ── Pricing ───────────────────────────────────────────────────
+const PRICES = {
+  'Service/Product Vendor': {'10x10':65,'10x20':70,'Food Truck':90},
+  'Food Vendor':            {'10x10':73,'10x20':78,'Food Truck':90}
+};
+
+// ── SPA navigation ────────────────────────────────────────────
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (page==='browse') renderGrid(allEvents);
+}
+
+// ── Toast ─────────────────────────────────────────────────────
+let _tt;
+function showToast(m) {
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('show');
+  clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── Modals ────────────────────────────────────────────────────
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeOnBg(e,id){ if(e.target.id===id) closeModal(id); }
+
+function openReg() {
+  resetForm();
+  openModal('regMo');
+  loadChimeTag();   // refresh live tag every time the modal opens
+}
+
+// ── Mobile menu ───────────────────────────────────────────────
+function openMM()  { document.getElementById('mmenu').classList.add('open'); }
+function closeMM() { document.getElementById('mmenu').classList.remove('open'); }
+
+// ── Search ────────────────────────────────────────────────────
+function doSearch() {
+  const q=(document.getElementById('navq').value||document.getElementById('mmq').value||'').trim();
+  nav('browse');
+  setTimeout(()=>{ document.getElementById('browseQ').value=q; browseSearch(); },100);
+}
+function browseSearch() {
+  const q=document.getElementById('browseQ').value.toLowerCase();
+  renderGrid(allEvents.filter(e=>
+    e.title.toLowerCase().includes(q)||e.loc.toLowerCase().includes(q)||e.tag.toLowerCase().includes(q)));
+}
+function filterBrowse(cat) {
+  nav('browse');
+  setTimeout(()=>{ document.getElementById('browseQ').value=cat; browseSearch(); },100);
+}
+function setFilter(el,cat) {
+  document.querySelectorAll('.bfilter').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderGrid(cat==='All'?allEvents:allEvents.filter(e=>e.tag===cat||(cat==='Free'&&e.price==='Free')));
+}
+
 const allEvents=[
-  {title:'Nairobi Jazz Festival 2026',date:'Sat, Jun 7 • 6:00 PM',loc:'Uhuru Gardens, Nairobi',price:'From KES 1,500',tag:'Music',img:'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&q=80&auto=format&fit=crop'},
-  {title:'Nairobi Food & Wine Gala — Madaraka Weekend',date:'Sat, May 31 • 7:00 PM',loc:'Radisson Blu Hotel, Upper Hill',price:'From KES 2,500',tag:'Food',img:'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400&q=80&auto=format&fit=crop'},
-  {title:'2026 Nairobi Summer Weekend Farmers Market',date:'Fri, Jun 27 • 8:00 AM',loc:'Karura Forest Gate, Nairobi',price:'Free',tag:'Food',img:'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=400&q=80&auto=format&fit=crop'},
-  {title:'AFC Leopards vs Gor Mahia — Derby Day',date:'Sun, May 10 • 3:00 PM',loc:'Kasarani Stadium, Nairobi',price:'From KES 500',tag:'Sports',img:'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&q=80&auto=format&fit=crop'},
-  {title:'Nairobi Half Marathon 2026',date:'Sun, Jun 22 • 6:00 AM',loc:'Nyayo National Stadium, Nairobi',price:'From KES 1,500',tag:'Sports',img:'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=400&q=80&auto=format&fit=crop'},
-  {title:'Nairobi Art Week 2026',date:'Sat–Sun, May 17–18',loc:'Village Market, Nairobi',price:'Free',tag:'Festival',img:'https://images.unsplash.com/photo-1549490349-8643362247b5?w=400&q=80&auto=format&fit=crop'},
-  {title:'Kenya Coffee Expo 2026',date:'Mon, Jun 15 • 9:00 AM',loc:'KICC, Nairobi',price:'From KES 500',tag:'Business',img:'https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?w=400&q=80&auto=format&fit=crop'},
-  {title:'Afrobeats Night — Club X Westlands',date:'Sat, May 9 • 9:00 PM',loc:'Westlands, Nairobi',price:'From KES 1,000',tag:'Music',img:'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&q=80&auto=format&fit=crop'},
-  {title:'Mama Oliech Sunday Brunch Special',date:'Sat, May 24 • 11:00 AM',loc:'Hurlingham, Nairobi',price:'From KES 800',tag:'Food',img:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80&auto=format&fit=crop'},
-  {title:'Tech Startup Summit Nairobi 2026',date:'Thu, Jun 12 • 8:00 AM',loc:'Strathmore University, Nairobi',price:'From KES 3,000',tag:'Business',img:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80&auto=format&fit=crop'},
-  {title:'Nyama Choma Fest — Mombasa Edition',date:'Sat, Jun 20 • 12:00 PM',loc:'Haller Park, Mombasa',price:'From KES 800',tag:'Food',img:'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=400&q=80&auto=format&fit=crop'},
-  {title:'2026 Nairobi Farmers and Makers Market',date:'Fri, Jun 6 • 8:00 AM',loc:'Ngong Road, Nairobi',price:'Free',tag:'Festival',img:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80&auto=format&fit=crop'},
+  {title:'2026 Atlanta Summer Farmers Market',date:'Fri\u2013Sun, Jun 12\u201314 \u00b7 1:00 PM',loc:'Patterson Park, Atlanta, GA',price:'Vendor Apply',tag:'Food',img:'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&q=80&auto=format&fit=crop'},
+  {title:'Atlanta Food & Wine Festival 2026',date:'Sat, Jun 28 \u00b7 12:00 PM',loc:'Piedmont Park, Midtown Atlanta',price:'From $45',tag:'Food',img:'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400&q=80&auto=format&fit=crop'},
+  {title:'Ponce City Market Sunday Market',date:'Sun, Jun 22 \u00b7 10:00 AM',loc:'Ponce City Market, Atlanta, GA',price:'Free',tag:'Food',img:'https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=400&q=80&auto=format&fit=crop'},
+  {title:'Sweetwater Craft Beer Festival',date:'Sat, Jul 19 \u00b7 2:00 PM',loc:'Atlantic Station, Atlanta, GA',price:'From $25',tag:'Festival',img:'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80&auto=format&fit=crop'},
+  {title:'Atlanta Jazz Festival 2026',date:'Sat, May 30 \u00b7 3:00 PM',loc:'Piedmont Park, Atlanta, GA',price:'Free',tag:'Music',img:'https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=400&q=80&auto=format&fit=crop'},
+  {title:'Atlanta Black Restaurant Week Kickoff',date:'Fri, Jul 11 \u00b7 6:00 PM',loc:'Underground Atlanta, Atlanta, GA',price:'Free',tag:'Food',img:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=400&q=80&auto=format&fit=crop'},
+  {title:'Atlanta United vs. Charlotte FC',date:'Sat, Jun 7 \u00b7 7:30 PM',loc:'Mercedes-Benz Stadium, Atlanta, GA',price:'From $35',tag:'Sports',img:'https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=400&q=80&auto=format&fit=crop'},
+  {title:'Afrobeats Night \u2014 Buckhead Live',date:'Sat, Jun 14 \u00b7 9:00 PM',loc:'Buckhead, Atlanta, GA',price:'From $20',tag:'Music',img:'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=400&q=80&auto=format&fit=crop'},
+  {title:'Atlanta Tech Summit 2026',date:'Thu, Jun 19 \u00b7 8:00 AM',loc:'Georgia World Congress Center',price:'From $150',tag:'Business',img:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=80&auto=format&fit=crop'},
+  {title:'Peachtree Road Race 10K',date:'Sat, Jul 4 \u00b7 7:30 AM',loc:'Lenox Square, Atlanta, GA',price:'From $15',tag:'Sports',img:'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=400&q=80&auto=format&fit=crop'},
+  {title:'Atlanta Art Week 2026',date:'Sat\u2013Sun, Aug 2\u20133',loc:'Krog Street Market, Atlanta, GA',price:'Free',tag:'Festival',img:'https://images.unsplash.com/photo-1549490349-8643362247b5?w=400&q=80&auto=format&fit=crop'},
+  {title:'Georgia Startup & Entrepreneurs Summit',date:'Mon, Sep 8 \u00b7 9:00 AM',loc:'Emory Conference Center, Atlanta',price:'From $75',tag:'Business',img:'https://images.unsplash.com/photo-1511537190424-bbbab87ac5eb?w=400&q=80&auto=format&fit=crop'},
 ];
 
-function renderBrowseGrid(events,q){
-  const grid=document.getElementById('browseGrid');
-  const noRes=document.getElementById('noResults');
-  if(!events.length){grid.innerHTML='';noRes.style.display='block';return;}
-  noRes.style.display='none';
-  grid.innerHTML=events.map(e=>`
-    <div class="event-card-grid" onclick="showToast('Opening: ${e.title.substring(0,28)}…')">
-      <div class="ecg-img">
-        <img src="${e.img}" alt="${e.title}"
-             onerror="this.parentElement.style.background='#ddd';this.remove()">
-      </div>
+function renderGrid(events) {
+  const g=document.getElementById('browseGrid'),nr=document.getElementById('noResults');
+  if(!events.length){g.innerHTML='';nr.style.display='block';return;}
+  nr.style.display='none';
+  g.innerHTML=events.map(e=>`
+    <div class="ecg" onclick="showToast('Opening: ${e.title.substring(0,30)}\u2026')">
+      <div class="ecg-img"><img src="${e.img}" alt="${e.title}" onerror="this.parentElement.style.background='#ddd';this.remove()"></div>
       <div class="ecg-body">
         <div class="ecg-tag ${e.price==='Free'?'free':''}">${e.price==='Free'?'Free':e.tag}</div>
         <div class="ecg-title">${e.title}</div>
         <div class="ecg-date">${e.date}</div>
-        <div class="ecg-loc">📍 ${e.loc}</div>
+        <div class="ecg-loc">\u{1F4CD} ${e.loc}</div>
         <div class="ecg-price">${e.price}</div>
       </div>
     </div>`).join('');
 }
 
-// ── Home page ──
+// ── Home interactions ─────────────────────────────────────────
 let saved=false;
-function toggleSave(){saved=!saved;const icon=document.getElementById('heartIcon');icon.setAttribute('fill',saved?'#E05020':'none');icon.setAttribute('stroke',saved?'#E05020':'currentColor');showToast(saved?'❤️ Event saved to your list!':'Removed from saved events');}
-
+function toggleSave(){
+  saved=!saved;
+  const i=document.getElementById('heartIcon');
+  i.setAttribute('fill',saved?'#2d6a4f':'none');
+  i.setAttribute('stroke',saved?'#2d6a4f':'currentColor');
+  showToast(saved?'\uD83D\uDC9A Event saved!':'Removed from saved events');
+}
 let following=false;
-function toggleFollow(){following=!following;const btn=document.getElementById('followBtn');btn.textContent=following?'Following ✓':'Follow';btn.classList.toggle('following',following);showToast(following?'✅ Now following Nairobi Market Collective':'Unfollowed Nairobi Market Collective');}
+function toggleFollow(){
+  following=!following;
+  const b=document.getElementById('followBtn');
+  b.textContent=following?'Following \u2713':'Follow';
+  b.classList.toggle('on',following);
+  showToast(following?'\u2705 Now following Atlanta Market Collective':'Unfollowed');
+}
+function openMaps(){window.open('https://maps.google.com/?q=Patterson+Park+770+Deshawn+Ave+SW+Atlanta+GA+30314','_blank');}
 
-let detailsOpen=false;
-function toggleEventDetails(){detailsOpen=!detailsOpen;const panel=document.getElementById('eventDetailsPanel');panel.classList.toggle('open',detailsOpen);document.querySelector('.view-btn').textContent=detailsOpen?'Hide event details ▲':'View all event details';if(detailsOpen)panel.scrollIntoView({behavior:'smooth',block:'nearest'});}
+// ── Share ─────────────────────────────────────────────────────
+function copyUrl(){document.getElementById('shareUrl').select();try{document.execCommand('copy');}catch(e){}showToast('\uD83D\uDD17 Link copied!');}
+function shareVia(p){
+  const u=encodeURIComponent('https://eventhub.us/e/2026-atlanta-summer-farmers-market');
+  const t=encodeURIComponent('Check out the 2026 Atlanta Summer Farmers Market on EventHub!');
+  const m={WhatsApp:`https://wa.me/?text=${t}%20${u}`,Twitter:`https://twitter.com/intent/tweet?text=${t}&url=${u}`,Facebook:`https://www.facebook.com/sharer/sharer.php?u=${u}`,Email:`mailto:?subject=Check%20this%20event&body=${t}%20${u}`,SMS:`sms:?body=${t}%20${u}`};
+  window.open(m[p],'_blank');closeModal('shareMo');
+}
 
-function openMapsNairobi(){window.open('https://maps.google.com/?q=Ngong+Racecourse+Nairobi+Kenya','_blank');}
+// ── Sign in ───────────────────────────────────────────────────
+function doSignIn(){
+  const e=document.getElementById('sinEmail').value,p=document.getElementById('sinPass').value;
+  if(!e||!p){showToast('\u26A0\uFE0F Enter your email and password');return;}
+  showToast('\u2705 Signed in!');closeModal('signinMo');
+  document.getElementById('signinBtn').textContent=e.split('@')[0];
+}
 
-// ── Share ──
-function copyShareUrl(){document.getElementById('shareUrl').select();try{document.execCommand('copy');}catch(e){}showToast('🔗 Link copied to clipboard!');}
-function shareVia(p){const url=encodeURIComponent('https://eventskenya.co.ke/e/2026-nairobi-summer-farmers-market');const text=encodeURIComponent('Check out the 2026 Nairobi Summer Farmers Market on EventsKenya!');const links={WhatsApp:`https://wa.me/?text=${text}%20${url}`,Twitter:`https://twitter.com/intent/tweet?text=${text}&url=${url}`,Facebook:`https://www.facebook.com/sharer/sharer.php?u=${url}`,Email:`mailto:?subject=Check%20out%20this%20event&body=${text}%20${url}`,SMS:`sms:?body=${text}%20${url}`};window.open(links[p],'_blank');closeModal('shareModal');}
-
-// ── Sign in ──
-function doSignIn(){const e=document.getElementById('signinEmail').value,p=document.getElementById('signinPass').value;if(!e||!p){showToast('⚠️ Please enter your email and password');return;}showToast('✅ Signed in successfully!');closeModal('signinModal');document.getElementById('signinNavBtn').textContent=e.split('@')[0];}
-
-// ── FAQ ──
+// ── FAQ ───────────────────────────────────────────────────────
 function toggleFaq(el){el.classList.toggle('open');}
 
-// ── Create event ──
-function selectTicket(el){document.querySelectorAll('.ticket-type').forEach(t=>{t.classList.remove('selected');t.querySelector('input').checked=false;});el.classList.add('selected');el.querySelector('input').checked=true;}
-function submitEvent(){showToast('🎉 Your event has been published!');setTimeout(()=>navigate('browse'),1500);}
+// ═══════════════════════════════════════════════════════════════
+//  FORM HANDLERS
+// ═══════════════════════════════════════════════════════════════
+function onCatChange(input) {
+  document.querySelectorAll('input[name="vcat"]').forEach(r=>{
+    r.closest('label').classList.toggle('sel', r.checked);
+  });
+  const p = PRICES[input.value];
+  document.getElementById('px_10x10').textContent = '$'+p['10x10'];
+  document.getElementById('px_10x20').textContent = '$'+p['10x20'];
+  document.getElementById('px_truck').textContent  = '$'+p['Food Truck'];
+  document.getElementById('sizeHint').style.display = 'none';
+  const sz = document.querySelector('input[name="sz"]:checked');
+  if (sz) onSizeChange(sz);
+}
 
-renderBrowseGrid(allEvents,'');
+function onSizeChange(input) {
+  document.querySelectorAll('input[name="sz"]').forEach(r=>{
+    r.closest('label').classList.toggle('sel', r.checked);
+  });
+}
+
+function onRadioChange(input) {
+  const name = input.name;
+  document.querySelectorAll(`input[name="${name}"]`).forEach(r=>{
+    r.closest('label').classList.toggle('sel', r.checked);
+  });
+}
+
+function onDayChange(input) {
+  input.closest('label').classList.toggle('sel', input.checked);
+  const days = ['cb_fri','cb_sat','cb_sun'];
+  const allChecked = days.every(id=>document.getElementById(id).checked);
+  const cbAll = document.getElementById('cb_all');
+  cbAll.checked = allChecked;
+  document.getElementById('lcb_all').classList.toggle('sel', allChecked);
+}
+
+function onAllDaysChange(input) {
+  input.closest('label').classList.toggle('sel', input.checked);
+  ['cb_fri','cb_sat','cb_sun'].forEach(id=>{
+    const cb = document.getElementById(id);
+    cb.checked = input.checked;
+    cb.closest('label').classList.toggle('sel', input.checked);
+  });
+}
+
+function getVal(name)  { const r=document.querySelector(`input[name="${name}"]:checked`); return r?r.value:''; }
+function getDays()     { return ['cb_fri','cb_sat','cb_sun'].filter(id=>document.getElementById(id).checked).map(id=>document.getElementById(id).value); }
+function getDayCount() { return getDays().length; }
+
+// ── Step bar ──────────────────────────────────────────────────
+function setStep(n) {
+  ['s1','s2','s3','s4'].forEach((id,i)=>{
+    document.getElementById(id).style.display = (i+1===n)?'block':'none';
+  });
+  for(let i=1;i<=4;i++){
+    const si=document.getElementById('si'+i);
+    si.classList.remove('active','done');
+    if(i<n)si.classList.add('done');
+    else if(i===n)si.classList.add('active');
+    const ss=document.getElementById('ss'+i);
+    if(ss)ss.classList.toggle('done',i<n);
+  }
+  document.querySelector('.reg-box').scrollTop=0;
+}
+
+// ── Step 1 → Approval ─────────────────────────────────────────
+function goToApproval() {
+  const name  = document.getElementById('f_name').value.trim();
+  const phone = document.getElementById('f_phone').value.trim();
+  const email = document.getElementById('f_email').value.trim();
+  const items = document.getElementById('f_items').value.trim();
+  const vcat  = getVal('vcat');
+  const sz    = getVal('sz');
+  const vtype = getVal('vtype');
+  const acc   = getVal('acc');
+  const sup   = getVal('sup');
+  const trm   = getVal('trm');
+  const agr   = getVal('agr');
+  const days  = getDayCount();
+
+  if (!name)                        { showToast('\u26A0\uFE0F Enter your business / name'); return; }
+  if (!phone)                       { showToast('\u26A0\uFE0F Enter your phone number'); return; }
+  if (!email||!email.includes('@')) { showToast('\u26A0\uFE0F Enter a valid email address'); return; }
+  if (!items)                       { showToast('\u26A0\uFE0F Describe your items'); return; }
+  if (!vcat)                        { showToast('\u26A0\uFE0F Select a vendor category'); return; }
+  if (!sz)                          { showToast('\u26A0\uFE0F Select a booth size'); return; }
+  if (!days)                        { showToast('\u26A0\uFE0F Select at least one day'); return; }
+  if (!vtype)                       { showToast('\u26A0\uFE0F New or returning vendor?'); return; }
+  if (!acc)                         { showToast('\u26A0\uFE0F Answer the accommodations question'); return; }
+  if (!sup)                         { showToast('\u26A0\uFE0F Answer the setup help question'); return; }
+  if (!trm)                         { showToast('\u26A0\uFE0F Please agree to the terms'); return; }
+  if (agr !== 'I agree')            { showToast('\u26A0\uFE0F You must agree to submit'); return; }
+
+  document.getElementById('aprLoad').style.display = 'block';
+  document.getElementById('aprOK').style.display   = 'none';
+  document.getElementById('aprTitle').textContent  = 'Reviewing your application\u2026';
+  document.getElementById('aprSub').textContent    = 'Please wait while we check your details';
+  setStep(2);
+
+  setTimeout(()=>{ document.getElementById('aprTitle').textContent='Almost there\u2026'; document.getElementById('aprSub').textContent='Verifying booth availability at Patterson Park'; }, 1400);
+  setTimeout(()=>{ document.getElementById('aprTitle').textContent='Finalizing approval\u2026'; document.getElementById('aprSub').textContent='Confirming your spot for June 12\u201314'; }, 2700);
+
+  setTimeout(()=>{
+    const price = PRICES[vcat][sz];
+    const total = price * days;
+    const dArr  = getDays();
+
+    document.getElementById('amtVal').textContent = '$'+total.toFixed(2);
+    document.getElementById('amtBrk').textContent = `${vcat} \u00b7 ${sz} \u00b7 $${price}/day \u00d7 ${days} day${days>1?'s':''}`;
+
+    document.getElementById('aprName').textContent = name;
+    document.getElementById('aprChips').innerHTML = [
+      `<span class="apr-chip">\uD83D\uDCE6 ${vcat}</span>`,
+      `<span class="apr-chip">\uD83D\uDCCF ${sz}</span>`,
+      `<span class="apr-chip">\uD83D\uDCC5 ${dArr.join(' \u00b7 ')}</span>`,
+      `<span class="apr-chip">\uD83D\uDCB5 $${total.toFixed(2)} total</span>`
+    ].join('');
+
+    document.getElementById('aprLoad').style.display = 'none';
+    document.getElementById('aprOK').style.display   = 'block';
+    document.querySelector('.reg-box').scrollTop = 0;
+  }, 3800);
+}
+
+function showPayStep()  { setStep(3); }
+function goBackToForm() { setStep(1); }
+
+// ── Copy Chime tag ────────────────────────────────────────────
+function copyChime() {
+  const tag = CHIME_TAG || '$Laura-Ramirez-195';
+  navigator.clipboard.writeText(tag).catch(()=>{
+    const ta=document.createElement('textarea');ta.value=tag;
+    document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+  });
+  const btn=document.getElementById('copyBtn');
+  const txt=document.getElementById('copyTxt');
+  btn.classList.add('copied');txt.textContent='Copied!';
+  setTimeout(()=>{ btn.classList.remove('copied');txt.textContent='Copy'; },2500);
+}
+
+// ── File upload ───────────────────────────────────────────────
+function onFileChange(input) {
+  const f=input.files[0];if(!f)return;
+  const fn=document.getElementById('fname');
+  fn.textContent='\u2705 '+f.name;fn.style.display='block';
+  const r=new FileReader();
+  r.onload=e=>{
+    document.getElementById('prevImg').src=e.target.result;
+    document.getElementById('filePrev').style.display='block';
+  };
+  r.readAsDataURL(f);
+}
+
+// ── Step 3 → Firebase ────────────────────────────────────────
+async function submitAll() {
+  const screenshot = document.getElementById('fileInput').files[0];
+  const chimeTag   = document.getElementById('f_chime_tag').value.trim();
+  if (!screenshot) { showToast('\u26A0\uFE0F Upload your payment screenshot'); return; }
+  if (!chimeTag)   { showToast('\u26A0\uFE0F Enter your Chime tag or name'); return; }
+
+  const btn=document.getElementById('btn3');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spn"></span>Submitting\u2026';
+
+  const email = document.getElementById('f_email').value.trim();
+  const vcat  = getVal('vcat');
+  const sz    = getVal('sz');
+  const dArr  = getDays();
+  const price = PRICES[vcat][sz];
+  const total = price * dArr.length;
+
+  const payload = {
+    device_id:              email,
+    event:                  '2026 Atlanta Summer Farmers Market',
+    event_dates:            'June 12\u201314, 2026',
+    submitted_at:           new Date().toISOString(),
+    business_name:          document.getElementById('f_name').value.trim(),
+    phone:                  document.getElementById('f_phone').value.trim(),
+    email:                  email,
+    items_description:      document.getElementById('f_items').value.trim(),
+    vendor_category:        vcat,
+    booth_size:             sz,
+    price_per_day:          '$'+price,
+    days_selected:          dArr,
+    total_amount:           '$'+total.toFixed(2),
+    vendor_type:            getVal('vtype'),
+    payment_method:         'Chime',
+    chime_sent_to:          CHIME_TAG || '$Laura-Ramirez-195',   // live tag
+    applicant_chime_tag:    chimeTag,
+    payment_screenshot:     screenshot.name,
+    special_accommodations: getVal('acc'),
+    needs_setup_help:       getVal('sup'),
+    agreed_to_terms:        getVal('trm'),
+    final_agreement:        getVal('agr'),
+    status:                 'pending_review'
+  };
+
+  try {
+    const key = await fbPut(payload);
+    document.getElementById('refCode').textContent = 'Application ID: '+key.toUpperCase().slice(0,20);
+    document.getElementById('rhdTitle').textContent = 'Application Submitted!';
+    document.getElementById('rhdSub').textContent   = 'Thank you \u2014 we will confirm your spot shortly';
+    setStep(4);
+  } catch(err) {
+    console.error(err);
+    showToast('\u274C Submission failed \u2014 please try again');
+    btn.disabled=false;
+    btn.innerHTML='Submit Payment Proof \u2713';
+  }
+}
+
+// ── Reset form ────────────────────────────────────────────────
+function resetForm() {
+  setStep(1);
+  document.getElementById('rhdTitle').textContent = 'Vendor Application Form';
+  document.getElementById('rhdSub').textContent   = '2026 Atlanta Summer Farmers Market \u00b7 June 12\u201314, 2026';
+  ['f_name','f_phone','f_email','f_items','f_chime_tag'].forEach(id=>document.getElementById(id).value='');
+  document.querySelectorAll('#regMo input[type=radio], #regMo input[type=checkbox]').forEach(i=>{ i.checked=false; });
+  document.querySelectorAll('#regMo label.ropt, #regMo label.copt, #regMo label.sz-opt').forEach(l=>l.classList.remove('sel'));
+  ['px_10x10','px_10x20','px_truck'].forEach(id=>document.getElementById(id).textContent='\u2014');
+  document.getElementById('sizeHint').style.display='block';
+  document.getElementById('fileInput').value='';
+  document.getElementById('filePrev').style.display='none';
+  document.getElementById('fname').style.display='none';
+  document.getElementById('aprLoad').style.display='block';
+  document.getElementById('aprOK').style.display='none';
+  document.getElementById('aprTitle').textContent='Reviewing your application\u2026';
+  document.getElementById('aprSub').textContent='Please wait while we check your details';
+  const b=document.getElementById('btn3');
+  b.disabled=false;b.innerHTML='Submit Payment Proof \u2713';
+}
+
+// ── Init ──────────────────────────────────────────────────────
+renderGrid(allEvents);
+loadChimeTag();   // fetch live Chime tag from Firebase on page load
 </script>
 </body>
 </html>
